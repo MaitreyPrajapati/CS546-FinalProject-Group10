@@ -21,10 +21,6 @@ let exportedMethods = {
 
     async addUser(email, password, firstName, lastName, city, state, country, zip) {
         const userCollection = await users();
-<<<<<<< HEAD
-=======
-
->>>>>>> 337f3b4bbf793a3f11f6d7f587624c236efb3976
         //bcrypt the password
         let newpass = await bcrypt.hash(password, saltRounds);
 
