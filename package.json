@@ -1,0 +1,19 @@
+{
+  "name": "cs546-finalproject-group10",
+  "version": "1.0.0",
+  "description": "finalproject for group10",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hahahakkkE7/CS546-FinalProject-Group10.git"
+  },
+  "author": "Maitrey Prajapati, Haoyu Li, Ronald Kim, Jiahua Huang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hahahakkkE7/CS546-FinalProject-Group10/issues"
+  },
+  "homepage": "https://github.com/hahahakkkE7/CS546-FinalProject-Group10#readme"
+}
