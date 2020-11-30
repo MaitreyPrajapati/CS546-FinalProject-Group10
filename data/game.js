@@ -1,44 +1,39 @@
 const mongoCollections = require('../config/mongoCollections');
-const game = mongoCollections.game;
+const games = mongoCollections.game;
 
 let exportedMethods = {
     async getAllGames() {
-        const gameCollection = await game();
-        const games = await userCollection.find({}).toArray();
-        if (!games) throw 'empty database';
-        return gameCollection;
+        const gameCollection = await games();
+        const allgames = await gameCollection.find({}).toArray();
+        if (!allgames) throw 'empty database';
+        return allgames;
     },
 
     async getGameById(id) {
-        const gameCollection = await game();
+        const gameCollection = await games();
         const game = await gameCollection.findOne({ _id: id });
-        if (!user) throw 'User not found';
-        return user;
+        if (!game) throw 'Game not found';
+        return game;
     },
 
-    async addUser(email, password, firstName, lastName, city, state, country, zip) {
-        const userCollection = await users();
-        //bcrypt the password
-        let newpass = await bcrypt.hash(password, saltRounds);
+    async addGame(ownerId, name, genra, gameDetail, releaseDate, gamePic, platform, category, comments) {
+        const gameCollection = await games();
 
-        let newUser = {
-            email: email,
-            password: newpass,
-            firstName: firstName,
-            lastName: lastName,
-            address:address,
-            city: city,
-            state: state,
-            country: country,
-            ZIP: zip,
-            LendedGamesID: {},
-            OwnedGamesID: {},
-            BorrowedGamesID: {}
+        let newGame = {
+            ownerId: ownerId,
+            name: name,
+            genra: genra,
+            gameDetail:gameDetail,
+            releaseDate: releaseDate,
+            gamePic: gamePic,
+            platform: platform,
+            category: category,
+            comments: {}
         };
 
-        const newInsertInformation = await userCollection.insertOne(newUser);
+        const newInsertInformation = await gameCollection.insertOne(newGame);
         if (newInsertInformation.insertedCount === 0) throw 'Insert failed!';
-        return await this.getUserById(newInsertInformation.insertedId);
+        return await this.getGameById(newInsertInformation.insertedId);
     }
 };
 
