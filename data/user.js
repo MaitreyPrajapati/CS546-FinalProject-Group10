@@ -21,15 +21,6 @@ let exportedMethods = {
     
     async addUser(email, password, firstName, lastName, city, state, country, zip) {
         const userCollection = await users();
-        if (!Array.isArray(posts)) {
-            posts = [];
-        }
-        if (!Array.isArray(comments)) {
-            comments = [];
-        }
-        if (!Array.isArray(saved)) {
-            saved = [];
-        }
 
         //bcrypt the password
         let newpass = await bcrypt.hash(password, saltRounds);
