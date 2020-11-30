@@ -2,14 +2,14 @@ const bcrypt = require('bcrypt');
 const saltRounds = 16;
 
 const mongoCollections = require('../config/mongoCollections');
-const user = mongoCollections.user;
+const users = mongoCollections.user;
 
 let exportedMethods = {
     async getAllUsers() {
-        const userCollection = await user();
-        const users = await userCollection.find({}).toArray();
-        if (!users) throw 'empty database';
-        return userList;
+        const userCollection = await users();
+        const allusers = await userCollection.find({}).toArray();
+        if (!allusers) throw 'empty database';
+        return allusers;
     },
 
     async getUserById(id) {
@@ -18,19 +18,9 @@ let exportedMethods = {
         if (!user) throw 'User not found';
         return user;
     },
-    
+
     async addUser(email, password, firstName, lastName, city, state, country, zip) {
         const userCollection = await users();
-        if (!Array.isArray(posts)) {
-            posts = [];
-        }
-        if (!Array.isArray(comments)) {
-            comments = [];
-        }
-        if (!Array.isArray(saved)) {
-            saved = [];
-        }
-
         //bcrypt the password
         let newpass = await bcrypt.hash(password, saltRounds);
 
