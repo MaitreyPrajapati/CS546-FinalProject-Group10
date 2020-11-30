@@ -90,7 +90,7 @@ body{
 .m-margin-bottom-small{
 	margin-bottom: 0.3em !important;
 }
-/*-------display*/
+/*---display---*/
 .m-inline-block{
 	display:inline-block !important;
 }
@@ -133,29 +133,9 @@ body{
 	bottom: 0 !important;
 	right: 0 !important;
 }
-
-
-/*--media--*/
-.m-mobile-show{
-		display: none !important;
-	}
-	
-@media screen and (max-width:768px ) {
-	.m-mobile-hide{
-		display: none !important;
-	}
-	.m-mobile-show{
-		display: block !important;
-	}
-	.m-padded-lr-reponsive{
-		padding-left:0 !important ;
-		padding-right: 0 !important;
-	}
-	.m-mobile-lr-clear{
-		padding-left:0 !important ;
-		padding-right: 0 !important;
-	}
-	.m-mobile-wide{
-		width:100% !important ;
-	}
+.register_div{
+	width: 50%;
+	margin-top: 30px;
+	border-style: solid;
+	margin-bottom: 30px;
 }
