@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { user } = require('../config/mongoCollection');
 const saltRounds = 16;
 
 const mongoCollections = require('../config/mongoCollections');
@@ -22,6 +23,7 @@ let exportedMethods = {
     async addUser(email, password, firstName, lastName, city, state, country, zip) {
         const userCollection = await users();
         //bcrypt the password
+        if(typeof(firstName)!="string") throw "invalid firstname";
         let newpass = await bcrypt.hash(password, saltRounds);
 
         let newUser = {
