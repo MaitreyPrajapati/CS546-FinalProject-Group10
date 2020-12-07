@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 16;
 
-const mongoCollections = require('../config/mongoCollections');
+const mongoCollections = require('../config/mongoCollection');
 const users = mongoCollections.user;
 
 let exportedMethods = {
@@ -18,8 +18,18 @@ let exportedMethods = {
         if (!user) throw 'User not found';
         return user;
     },
-
-    async addUser(email, password, firstName, lastName, profilePicture, city, state, country, zip) {
+    async checkuserByEmail(email) {
+        if (typeof email != "string") {
+            throw "email type is error.";
+        }
+        const usersCollection = await users();
+        const repe = await usersCollection.findOne({ email: email });
+        if (repe != null) {
+            return false;
+        }
+        return true;
+    },
+    async addUser(email, password, firstName, lastName, profilePicture, address, city, state, country, zip) {
         const userCollection = await users();
 
         //error check
@@ -27,6 +37,7 @@ let exportedMethods = {
         if (typeof (password) != "string") throw "invalid password";
         if (typeof (firstName) != "string") throw "invalid firstname";
         if (typeof (lastName) != "string") throw "invalid lastName";
+        if (typeof (address) != "string") throw "invalid address";
         if (typeof (city) != "string") throw "invalid city";
         if (typeof (state) != "string") throw "invalid state";
         if (typeof (country) != "string") throw "invalid country";
@@ -80,11 +91,11 @@ let exportedMethods = {
         };
 
         const userCollection = await users();
-        const updateUser = await userCollection.updateOne(
+        const updatedInfo = await userCollection.updateOne(
             { _id: id },
             { $set: updateUser }
         );
-        if (!updateUser.matchedCount && !updateUser.modifiedCount)
+        if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount)
             throw 'Update failed';
 
         return await this.getUserById(id);
