@@ -45,7 +45,7 @@ let exportedMethods = {
             city: city,
             state: state,
             country: country,
-            ZIP: zip,
+            zip: zip,
             LendedGamesID: {},
             OwnedGamesID: {},
             BorrowedGamesID: {}
