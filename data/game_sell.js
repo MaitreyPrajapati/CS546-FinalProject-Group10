@@ -42,6 +42,7 @@ async function addGameToUserOwned(newOwner, gameId) {
     throw `Couldn't add game in the new user's owned game.`;
 }
 
+// Changes owner of the game from oldOwner to newOwner, performs all required operations
 async function changeOwner(oldOwner, newOwner, gameId) {
   const gameData = await gameCollection();
 
@@ -81,7 +82,7 @@ module.exports = {
     if (updateCount == 0) throw `Failed to put up game for the sell.`;
   },
 
-  sellGame: async (buyerId, gameId) => {
+  buyGame: async (buyerId, gameId) => {
     try {
       await users.getUserById(buyerId);
     } catch (e) {
