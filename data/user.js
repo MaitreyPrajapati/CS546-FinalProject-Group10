@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
-const saltRounds = 16;
+const saltRounds = 8;
 
-const mongoCollections = require("../config/mongoCollections");
+const mongoCollections = require("../config/mongoCollection");
 const users = mongoCollections.user;
 
 let exportedMethods = {
@@ -18,6 +18,12 @@ let exportedMethods = {
         if (!user) throw 'User not found';
         return user;
     },
+    async getUserByEmail(email) {
+        const userCollection = await users();
+        const user = await userCollection.findOne({ email: email });
+        if (!user) throw 'User not found';
+        return user;
+    },
     async checkuserByEmail(email) {
         if (typeof email != "string") {
             throw "email type is error.";
@@ -26,8 +32,25 @@ let exportedMethods = {
         const repe = await usersCollection.findOne({ email: email });
         if (repe != null) {
             return false;
+        }else{
+            return true;
         }
-        return true;
+       
+    },
+    async checkUser(email,password) {
+        if (typeof email != "string") {
+            throw "email type is error.";
+        }
+        const usersCollection = await users();
+        const repe = await usersCollection.findOne({ email: email });
+        const db_password = repe.password;
+        let authenticated = await bcrypt.compare(password, db_password); 
+        if (authenticated) {
+            return true;
+        }else{
+            return false;
+        }
+       
     },
     async addUser(email, password, firstName, lastName, profilePicture, address, city, state, country, zip) {
         const userCollection = await users();

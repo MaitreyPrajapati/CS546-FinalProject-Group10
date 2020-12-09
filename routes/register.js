@@ -53,11 +53,12 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    if (userdata.checkuserByEmail(newUser.email)) {
+    if (await userdata.checkuserByEmail(newUser.email)) {
       await userdata.addUser(newUser.email, newUser.password, newUser.firstname, newUser.lastname, newUser.profilePicture,
         newUser.address, newUser.city, newUser.state, newUser.country, newUser.zip);
+        res.render("pages/private");
     } else {
-      res.json({ message: "username already exist." });
+      res.json({ message: "user already exist." });
     }
   } catch (e) {
     res.status(500).json({ error: e });
