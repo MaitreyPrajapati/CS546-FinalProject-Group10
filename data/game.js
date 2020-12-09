@@ -22,13 +22,14 @@ let exportedMethods = {
         let newGame = {
             ownerId: ownerId,
             name: name,
-            genra: genra,
+            genre: genre,
             gameDetail:gameDetail,
             releaseDate: releaseDate,
             gamePic: gamePic,
             platform: platform,
             category: category,
-            comments: {}
+            comments: [],
+            isBorrowed= null
         };
 
         const newInsertInformation = await gameCollection.insertOne(newGame);
