@@ -1,16 +1,16 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const saltRounds = 16;
 
-const mongoCollections = require('../config/mongoCollection');
+const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.user;
 
 let exportedMethods = {
-    async getAllUsers() {
-        const userCollection = await users();
-        const allusers = await userCollection.find({}).toArray();
-        if (!allusers) throw 'empty database';
-        return allusers;
-    },
+  async getAllUsers() {
+    const userCollection = await users();
+    const allusers = await userCollection.find({}).toArray();
+    if (!allusers) throw "empty database";
+    return allusers;
+  },
 
     async getUserById(id) {
         const userCollection = await users();
@@ -57,9 +57,9 @@ let exportedMethods = {
             state: state,
             country: country,
             zip: zip,
-            LendedGamesID: {},
-            OwnedGamesID: {},
-            BorrowedGamesID: {}
+            LendedGamesID: [],
+            OwnedGamesID: [],
+            BorrowedGamesID: []
         };
 
         const newInsertUser = await userCollection.insertOne(newUser);
