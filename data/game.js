@@ -28,6 +28,7 @@ let exportedMethods = {
             gamePic: gamePic,
             platform: platform,
             category: category,
+            available: false,
             comments: [],
             isBorrowed= null
         };
