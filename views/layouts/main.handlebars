@@ -12,12 +12,14 @@
 	</head>
 
 	<body>
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
 		<!--navigate-->
 		<nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
 			<div class="ui container">
 				<div class="ui inverted secondry stackable menu">
 					<h2 class="ui teal header item">Video Games</h2>
-					<a href="#" class="m-item item"><i class="gamepad icon"></i>Home</a>
+					<a href="/" class="m-item item"><i class="gamepad icon"></i>Home</a>
 					<a href="#" class="m-item item"><i class="handshake icon"></i>Rent</a>
 					<a href="#" class="m-item item"><i class="gift icon"></i>Purchase</a>
 					<a href="/private" class="m-item item"><i class="info icon"></i>Account</a>
@@ -27,12 +29,14 @@
 							<i class="search link icon"></i>
 						</div>
 					</div>
-                    <a href="/login" class="m-item item">Login</a>
-                    <a href="/register" class="m-item item"></i>Sign Up</a>
+                    <a href="/login" id="LoginBtn" class="m-item item">Login</a>
+                    <a href="/register" id="SignUpBtn" class="m-item item"></i>Sign Up</a>
 				</div>
 			</div>
 		</nav>
         {{{body}}}
+		
+
 		<!--fotter-->
 		<footer class="ui inverted vertical segment m-padded-tb-massive">
 			<div class="ui center aligned container">
@@ -69,6 +73,6 @@
 			</div>
 
 		</footer>
+		
 	</body>
-
 </html>
