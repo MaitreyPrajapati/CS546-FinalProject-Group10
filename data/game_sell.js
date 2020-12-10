@@ -64,7 +64,7 @@ async function changeOwner(oldOwner, newOwner, gameId) {
 module.exports = {
   putUpForSale: async (gameId) => {
     try {
-      games.getGameById(gameId);
+      await games.getGameById(gameId);
     } catch (e) {
       throw `${gameId} is not a valid game id.`;
     }
@@ -90,7 +90,7 @@ module.exports = {
     }
 
     try {
-      games.getGameById(gameId);
+      await games.getGameById(gameId);
     } catch (e) {
       throw `${gameId} is not a valid game id.`;
     }
