@@ -121,7 +121,8 @@ let exportedMethods = {
         if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount)
             throw 'Update failed';
 
-        return await this.getUserById(id);
+        // return await this.getUserById(id);
+        return;
     },
 
     // user interactive with game (add games)

@@ -1,6 +1,6 @@
-body{
+/* body{
 	background: url(../img/positive.png);
-}
+} */
 
 .m-padded-mini {
 	padding:0.2em !important;
@@ -139,3 +139,8 @@ body{
 	border-style: solid;
 	margin-bottom: 30px;
 }
+/** Display **/
+.hide {
+	display:none;
+}
+

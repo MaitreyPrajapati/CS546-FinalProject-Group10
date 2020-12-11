@@ -5,7 +5,7 @@ const userdata = data.users;
 var bodyParser = require("body-parser");
 
 router.get("/", async (req, res) => {
-    
+    res.render("pages/rent");
 });
 
 module.exports = router;
