@@ -7,7 +7,7 @@ const { ObjectId } = require("mongodb");
 
 router.get("/", async (req, res) => {
     if (req.session.user) {
-        await userdata.removeUser(ObjectId(req.session.user._id));
+        await userdata.removeUser(req.session.user._id);
         req.session.destroy();
         res.redirect("/");
     } else {

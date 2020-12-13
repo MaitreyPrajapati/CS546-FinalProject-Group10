@@ -1,5 +1,8 @@
-const mongoCollections = require("../config/mongoCollections");
+const mongoCollections = require("../config/mongoCollection");
 const games = mongoCollections.game;
+var BSON = require('mongodb');
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
 
 let exportedMethods = {
   async getAllGames() {
@@ -15,18 +18,29 @@ let exportedMethods = {
     if (!game) throw "Game not found";
     return game;
   },
+  async getGameByUserId(id) {
+    const gameCollection = await games();
+    const game = await gameCollection.find({ ownerId: id }).toArray();
+    if (!game) throw "user has no game";
+    return game;
+  },
 
   async addGame(
     ownerId,
     name,
-    genra,
+    genre,
     gameDetail,
     releaseDate,
-    gamePic,
-    platform,
-    category,
-    comments
+    platform
   ) {
+
+    if (!ObjectId.isValid(ownerId)) throw "invalid ownerId";
+    if (typeof (name) != "string") throw "invalid name";
+    if (typeof (genre) != "string") throw "invalid genre";
+    if (typeof (gameDetail) != "string") throw "invalid gameDetail";
+    if (typeof (releaseDate) != "string") throw "invalid releaseDate";
+    if (typeof (platform) != "string") throw "invalid platform";
+
     const gameCollection = await games();
 
     let newGame = {
@@ -35,17 +49,25 @@ let exportedMethods = {
       genre: genre,
       gameDetail: gameDetail,
       releaseDate: releaseDate,
-      gamePic: gamePic,
+      gamePic: '',
       platform: platform,
-      category: category,
+      category: '',
       available: false,
       comments: [],
-      isBorrowed: false,
+      isBorrowed: false
     };
 
     const newInsertInformation = await gameCollection.insertOne(newGame);
     if (newInsertInformation.insertedCount === 0) throw "Insert failed!";
-    return await this.getGameById(newInsertInformation.insertedId);
+    return newInsertInformation.insertedId;
+  },
+  async removeGame(id) {
+    const gameCollection = await games();
+    const deletedGame = await gameCollection.removeOne({ _id: BSON.ObjectID.createFromHexString(id)});
+    if (deletedGame.deletedCount === 0) {
+      throw `Could not delete game with id of ${id}`;
+    }
+    return true;
   },
   async updateGame(id, updatedGame) {
 
@@ -53,7 +75,7 @@ let exportedMethods = {
       ownerId: updatedGame.ownerId,
       name: updatedGame.name,
       genre: updatedGame.genre,
-      gameDetail:updatedGame.gameDetail,
+      gameDetail: updatedGame.gameDetail,
       releaseDate: updatedGame.releaseDate,
       gamePic: updatedGame.gamePic,
       platform: updatedGame.platform,
