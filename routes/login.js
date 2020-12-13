@@ -24,15 +24,13 @@ router.post("/", async (req, res) => {
         res.status(400).json({ error: "Password cant be empty" });
         return;
     }
-
     try {
         if (await userdata.checkUser(User.email, User.password)) {
             req.session.user = await userdata.getUserByEmail(User.email);
             res.cookie("name","auth_cookie");
             res.redirect("/private");
         } else {
-            res.json({ message: "email password not match." });
-            res.redirect("/");
+            res.redirect("/login");
         }
     } catch (e) {
         console.log(e);
