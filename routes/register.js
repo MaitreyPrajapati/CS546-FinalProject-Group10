@@ -57,7 +57,9 @@ router.post("/", async (req, res) => {
     if (await userdata.checkuserByEmail(newUser.email)) {
       await userdata.addUser(newUser.email, newUser.password, newUser.firstname, newUser.lastname, newUser.profilePicture,
         newUser.address, newUser.city, newUser.state, newUser.country, newUser.zip);
-        res.render("pages/private");
+        req.session.user = await userdata.getUserByEmail(newUser.email);
+        res.cookie("name","auth_cookie");
+        res.redirect("/private");
     } else {
       res.json({ message: "user already exist." });
     }

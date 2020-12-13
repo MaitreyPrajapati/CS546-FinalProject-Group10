@@ -9,6 +9,7 @@
                 <th>Address</th>
                 <th>City</th>
                 <th>State</th>
+                <th>User Operation</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,10 @@
                 <td data-label="Name">{{user.address}}</td>
                 <td data-label="Name">{{user.city}}</td>
                 <td data-label="Name">{{user.state}}</td>
+                <td>
+                    <a href="/userUpdate" class="ui mini basic teal button">Update</a>
+                    <a href="/userDelete" class="ui mini basic red button">Delete</a>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -35,7 +40,7 @@
                     <th>Genre</th>
                     <th>Platform</th>
                     <th>Updated Time </th>
-                    <th>Operation</th>
+                    <th>Game Operation</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,5 +96,3 @@
         </table>
     </div>
 </div>
-
-

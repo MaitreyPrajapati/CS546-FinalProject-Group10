@@ -4,6 +4,8 @@ const privateRoute = require("./private");
 const logoutRoute = require("./logout");
 const rentRoute = require("./rent");
 const purchaseRoute = require("./purchase");
+const userDeleteRoute = require("./userDeleteRoute");
+const userUpdateRoute = require("./userUpdateRoute");
 
 const constructorMethod = (app) => {
     app.get("/", function (req, res) {
@@ -21,6 +23,8 @@ const constructorMethod = (app) => {
             res.status(500).redirect("/login");
         }
     }); 
+    app.use("/userDelete",userDeleteRoute);
+    app.use("/userUpdate",userUpdateRoute);
 };
 
 module.exports = constructorMethod;

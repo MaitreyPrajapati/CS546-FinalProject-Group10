@@ -5,12 +5,12 @@ const mongoCollections = require("../config/mongoCollection");
 const users = mongoCollections.user;
 
 let exportedMethods = {
-  async getAllUsers() {
-    const userCollection = await users();
-    const allusers = await userCollection.find({}).toArray();
-    if (!allusers) throw "empty database";
-    return allusers;
-  },
+    async getAllUsers() {
+        const userCollection = await users();
+        const allusers = await userCollection.find({}).toArray();
+        if (!allusers) throw "empty database";
+        return allusers;
+    },
 
     async getUserById(id) {
         const userCollection = await users();
@@ -21,7 +21,7 @@ let exportedMethods = {
     async getUserByEmail(email) {
         const userCollection = await users();
         const user = await userCollection.findOne({ email: email });
-        if (!user) throw 'User not found';
+        if (!user) throw 'User not found hahah';
         return user;
     },
     async checkuserByEmail(email) {
@@ -32,25 +32,28 @@ let exportedMethods = {
         const repe = await usersCollection.findOne({ email: email });
         if (repe != null) {
             return false;
-        }else{
+        } else {
             return true;
         }
-       
+
     },
-    async checkUser(email,password) {
+    async checkUser(email, password) {
         if (typeof email != "string") {
             throw "email type is error.";
         }
         const usersCollection = await users();
         const repe = await usersCollection.findOne({ email: email });
-        const db_password = repe.password;
-        let authenticated = await bcrypt.compare(password, db_password); 
-        if (authenticated) {
-            return true;
-        }else{
+        if (repe == null) {
             return false;
         }
-       
+        const db_password = repe.password;
+        let authenticated = await bcrypt.compare(password, db_password);
+        if (authenticated) {
+            return true;
+        } else {
+            return false;
+        }
+
     },
     async addUser(email, password, firstName, lastName, profilePicture, address, city, state, country, zip) {
         const userCollection = await users();
@@ -98,30 +101,61 @@ let exportedMethods = {
         return true;
     },
     async updateUser(id, updatedUser) {
-        let newpass = updatedUser.password;
-
+        let oldUser = await this.getUserById(id);
         let updateUser = {
-            email: updatedUser.email,
-            password: newpass,
-            firstName: updatedUser.firstName,
-            lastName: updatedUser.lastName,
-            profilePicture: updatedUser.profilePicture,
-            address: updatedUser.address,
-            city: updatedUser.city,
-            state: updatedUser.state,
-            country: updatedUser.country,
-            ZIP: updatedUser.zip
+            email: oldUser.email,
+            password: oldUser.password,
+            firstName: oldUser.firstName,
+            lastName: oldUser.lastName,
+            profilePicture: oldUser.profilePicture,
+            address: oldUser.address,
+            city: oldUser.city,
+            state: oldUser.state,
+            country: oldUser.country,
+            ZIP: oldUser.zip,
+            LendedGamesID: oldUser.LendedGamesID,
+            OwnedGamesID: oldUser.OwnedGamesID,
+            BorrowedGame: oldUser.BorrowedGamesID
         };
+        if (updatedUser.email != '' && typeof (updatedUser.email) == "string") {
+            updateUser.email = updatedUser.email;
+        }
+        if (updatedUser.password != '' && typeof (updatedUser.password) == "string") {
+            let newpass = await bcrypt.hash(updatedUser.password, saltRounds);;
+            updateUser.password = newpass;
+        }
+        if (updatedUser.firstname != '' && typeof (updatedUser.firstname) == "string") {
+            updateUser.firstName = updatedUser.firstname;
+        }
+        if (updatedUser.lastname != '' && typeof (updatedUser.lastname) == "string") {
+            updateUser.lastName = updatedUser.lastname;
+        }
+        if (updatedUser.address != '' && typeof (updateUser.address) == "string") {
+            updateUser.address = updatedUser.address;
+        }
+        if (updatedUser.city != '' && typeof (updateUser.city) == "string") {
+            updateUser.city = updatedUser.city;
+        }
+        if (updatedUser.state != '' && typeof (updateUser.state) == "string") {
+            updateUser.state = updatedUser.state;
+        }
+        if (updatedUser.country != '' && typeof (updateUser.country) == "string") {
+            updateUser.country = updatedUser.country;
+        }
+        if (updatedUser.zip != '' && typeof (updateUser.zip) == "string") {
+            updateUser.zip = updatedUser.zip;
+        }
 
         const userCollection = await users();
+
         const updatedInfo = await userCollection.updateOne(
             { _id: id },
             { $set: updateUser }
         );
+
+
         if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount)
             throw 'Update failed';
-
-        // return await this.getUserById(id);
         return;
     },
 
