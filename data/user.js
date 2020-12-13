@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 8;
-
+var BSON = require('mongodb');
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
 const mongoCollections = require("../config/mongoCollection");
 const users = mongoCollections.user;
 
@@ -94,7 +96,7 @@ let exportedMethods = {
     },
     async removeUser(id) {
         const userCollection = await users();
-        const deletedUser = await userCollection.removeOne({ _id: id });
+        const deletedUser = await userCollection.removeOne({ _id: BSON.ObjectID.createFromHexString(id) });
         if (deletedUser.deletedCount === 0) {
             throw `Could not delete user with id of ${id}`;
         }
@@ -163,73 +165,71 @@ let exportedMethods = {
     async addOwnedGameToUser(userId, gameId) {
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
-            { _id: userId },
-            { $addToSet: { OwnedGamesID: { id: gameId } } }
+            { _id: ObjectId(userId) },
+            { $addToSet: { OwnedGamesID: { id: ObjectId(gameId) } } }
         );
-
         if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
             throw 'Add OwnedGame failed';
 
-        return await this.getUserById(userId);
+        return;
     },
     async addlendedGameToUser(userId, gameId) {
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
-            { _id: userId },
-            { $addToSet: { LenedGamesID: { id: gameId } } }
+            { _id: ObjectId(userId) },
+            { $addToSet: { LenedGamesID: { id: ObjectId(gameId) } } }
         );
 
         if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
             throw 'Add LenedGame failed';
 
-        return await this.getUserById(userId);
+        return;
     },
     async addBorrowedGameToUser(userId, gameId) {
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
-            { _id: userId },
-            { $addToSet: { BorrowedGamesID: { id: gameId } } }
+            { _id: ObjectId(userId) },
+            { $addToSet: { BorrowedGamesID: { id: ObjectId(gameId) } } }
         );
 
         if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
             throw 'Add BorrowedGame failed';
 
-        return await this.getUserById(userId);
+        return;
     },
-
     // user interactive with game (remove games)
     async removeOwnedGameFromUser(userId, gameId) {
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
-            { _id: userId },
-            { $pull: { OwnedGamesID: { id: gameId } } }
+            { _id: ObjectId(userId) },
+            { $pull: { OwnedGamesID: { id: ObjectId(gameId) } } }
         );
         if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
             throw 'Update failed';
 
-        return await this.getUserById(userId);
+        return;
     },
     async removeLendedGameFromUser(userId, gameId) {
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
-            { _id: userId },
-            { $pull: { LenedGamesID: { id: gameId } } }
+            { _id: ObjectId(userId) },
+            { $pull: { LenedGamesID: { id: ObjectId(gameId) } } }
         );
         if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
             throw 'Update failed';
 
-        return await this.getUserById(userId);
+        return;
     },
     async removeBorrowedGameFromUser(userId, gameId) {
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
-            { _id: userId },
-            { $pull: { BorrowedGamesID: { id: gameId } } }
+            { _id: ObjectId(userId) },
+            { $pull: { BorrowedGamesID: { id: ObjectId(gameId) } } }
         );
         if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
             throw 'Update failed';
 
-        return await this.getUserById(userId);
+        return;
     }
 
 };

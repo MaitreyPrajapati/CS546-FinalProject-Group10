@@ -55,11 +55,24 @@
                         <a href="#" class="ui mini basic red button">Delete</a>
                     </td>
                 </tr>
+                {{#each ownedgames}} 
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.genre}}</td>
+                    <td>{{this.platform}}</td>
+                    <td>{{this.releaseDate}}</td>
+                    <td>
+                        <a href="#" class="ui mini basic teal button">Sell</a>
+                        <a href="#" class="ui mini basic teal button">Borrow</a>
+                        <a href="/private/deleteGame/{{this._id}}" class="ui mini basic red button">Delete</a>
+                    </td>
+                </tr>
+                {{/each}}
             </tbody>
             <tfoot>
                 <tr>
                     <th colspan="6">
-                        <a class="ui right floated mini teal basic button">Add</a>
+                        <a href="/private/addGame" class="ui right floated mini teal basic button">Add</a>
                     </th>
                 </tr>
             </tfoot>

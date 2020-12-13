@@ -16,13 +16,7 @@ const constructorMethod = (app) => {
     app.use("/logout", logoutRoute);
     app.use("/rent",rentRoute);
     app.use("/purchase",purchaseRoute);
-    app.get("/private", (req, res) => {
-        if (req.session.user) {
-            res.render("pages/private",{user:req.session.user});
-          } else {
-            res.status(500).redirect("/login");
-        }
-    }); 
+    app.use("/private", privateRoute); 
     app.use("/userDelete",userDeleteRoute);
     app.use("/userUpdate",userUpdateRoute);
 };
