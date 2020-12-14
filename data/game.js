@@ -1,7 +1,7 @@
 const mongoCollections = require("../config/mongoCollection");
 const games = mongoCollections.game;
-var BSON = require('mongodb');
-const mongoose = require('mongoose');
+var BSON = require("mongodb");
+const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
 
 let exportedMethods = {
@@ -25,21 +25,13 @@ let exportedMethods = {
     return game;
   },
 
-  async addGame(
-    ownerId,
-    name,
-    genre,
-    gameDetail,
-    releaseDate,
-    platform
-  ) {
-
+  async addGame(ownerId, name, genre, gameDetail, releaseDate, platform) {
     if (!ObjectId.isValid(ownerId)) throw "invalid ownerId";
-    if (typeof (name) != "string") throw "invalid name";
-    if (typeof (genre) != "string") throw "invalid genre";
-    if (typeof (gameDetail) != "string") throw "invalid gameDetail";
-    if (typeof (releaseDate) != "string") throw "invalid releaseDate";
-    if (typeof (platform) != "string") throw "invalid platform";
+    if (typeof name != "string") throw "invalid name";
+    if (typeof genre != "string") throw "invalid genre";
+    if (typeof gameDetail != "string") throw "invalid gameDetail";
+    if (typeof releaseDate != "string") throw "invalid releaseDate";
+    if (typeof platform != "string") throw "invalid platform";
 
     const gameCollection = await games();
 
@@ -49,12 +41,12 @@ let exportedMethods = {
       genre: genre,
       gameDetail: gameDetail,
       releaseDate: releaseDate,
-      gamePic: '',
+      gamePic: "",
       platform: platform,
-      category: '',
+      category: "",
       available: false,
       comments: [],
-      isBorrowed: false
+      isBorrowed: false,
     };
 
     const newInsertInformation = await gameCollection.insertOne(newGame);
@@ -63,14 +55,15 @@ let exportedMethods = {
   },
   async removeGame(id) {
     const gameCollection = await games();
-    const deletedGame = await gameCollection.removeOne({ _id: BSON.ObjectID.createFromHexString(id)});
+    const deletedGame = await gameCollection.removeOne({
+      _id: BSON.ObjectID.createFromHexString(id),
+    });
     if (deletedGame.deletedCount === 0) {
       throw `Could not delete game with id of ${id}`;
     }
     return true;
   },
   async updateGame(id, updatedGame) {
-
     let updateGame = {
       ownerId: updatedGame.ownerId,
       name: updatedGame.name,
@@ -82,7 +75,7 @@ let exportedMethods = {
       category: updatedGame.category,
       available: updatedGame.available,
       comments: updatedGame.comments,
-      isBorrowed: updatedGame.isBorrowed
+      isBorrowed: updatedGame.isBorrowed,
     };
 
     const gameCollection = await games();
@@ -91,9 +84,16 @@ let exportedMethods = {
       { $set: updateGame }
     );
     if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount)
-      throw 'Update failed';
+      throw "Update failed";
 
     return;
+  },
+
+  // Returns all the available games that are listed for selling and renting.
+  getAllListedGames: async () => {
+    const gameCollection = await games();
+    const available_games = await gameCollection.find({ available: true });
+    return available_games;
   },
 };
 
