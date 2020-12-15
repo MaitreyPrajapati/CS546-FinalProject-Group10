@@ -24,7 +24,13 @@ let exportedMethods = {
         const userCollection = await users();
         const user = await userCollection.findOne({ email: email });
         if (!user) throw 'User not found hahah';
-        return user;
+        const cookie = {
+            _id: user._id,
+            email:user.email,
+            firstName:user.firstName,
+            lastName:user.lastName
+        };
+        return cookie;
     },
     async checkuserByEmail(email) {
         if (typeof email != "string") {
