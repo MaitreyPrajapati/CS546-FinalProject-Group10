@@ -14,7 +14,7 @@ let exportedMethods = {
 
   async getGameById(id) {
     const gameCollection = await games();
-    const game = await gameCollection.findOne({ _id: id });
+    const game = await gameCollection.findOne({ _id: ObjectId(id) });
     if (!game) throw "Game not found";
     return game;
   },
@@ -87,14 +87,14 @@ let exportedMethods = {
 
     const gameCollection = await games();
     const updatedInfo = await gameCollection.updateOne(
-      { _id: id },
+      { _id: ObjectId(id) },
       { $set: updateGame }
     );
     if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount)
       throw 'Update failed';
 
     return;
-  },
+  }
 };
 
 module.exports = exportedMethods;
