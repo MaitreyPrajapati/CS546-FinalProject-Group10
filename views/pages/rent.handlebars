@@ -8,51 +8,28 @@
               <div class="ui button">Borrow</div>
             </div>
             <img class="ui avatar image" src="../../public/img/home_page2.png">
-            <div class="content">Game </div>
+            <div class="content">Game</div>
             <ul>
-              <li>Genre</li>
               <li>Rent Fee</li>
-              <li>Platform</li>
+              <li>Duration</li>
             </ul>
           </div>
+          {{#each rentgames}}
           <div class="item">
             <div class="right floated content">
-              <div class="ui button">Borrow</div>
+              <div class="ui button"><a href="/games/rent/{{this._id}}">Borrow</a></div>
             </div>
             <img class="ui avatar image" src="../../public/img/home_page2.png">
-            <div class="content">Game </div>
+            <div class="content"><a href="#">{{this.name}}</a></div>
             <ul>
-              <li>Genre</li>
-              <li>Rent Fee</li>
-              <li>Platform</li>
+              <li>$ {{this.rentPrice}}</li>
+              <li>{{this.duration}} days</li>
             </ul>
           </div>
-          <div class="item">
-            <div class="right floated content">
-              <div class="ui button">Borrow</div>
-            </div>
-            <img class="ui avatar image" src="../../public/img/home_page2.png">
-            <div class="content">Game </div>
-            <ul>
-              <li>Genre</li>
-              <li>Rent Fee</li>
-              <li>Platform</li>
-            </ul>
-          </div>
-          <div class="item">
-            <div class="right floated content">
-              <div class="ui button">Borrow</div>
-            </div>
-            <img class="ui avatar image" src="../../public/img/home_page2.png">
-            <div class="content">Game </div>
-            <ul>
-              <li>Genre</li>
-              <li>Rent Fee</li>
-              <li>Platform</li>
-            </ul>
-          </div>
+          {{/each}}
         </div>
       </div>
     </div>
   </div>
 </div>
+<script src="../../public/js/rentlist.js"></script>

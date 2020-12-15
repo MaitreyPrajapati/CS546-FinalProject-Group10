@@ -16,7 +16,7 @@ let exportedMethods = {
 
     async getUserById(id) {
         const userCollection = await users();
-        const user = await userCollection.findOne({ _id: id });
+        const user = await userCollection.findOne({ _id: ObjectId(id) });
         if (!user) throw 'User not found';
         return user;
     },
@@ -24,7 +24,13 @@ let exportedMethods = {
         const userCollection = await users();
         const user = await userCollection.findOne({ email: email });
         if (!user) throw 'User not found hahah';
-        return user;
+        const cookie = {
+            _id: user._id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName
+        };
+        return cookie;
     },
     async checkuserByEmail(email) {
         if (typeof email != "string") {
@@ -117,7 +123,7 @@ let exportedMethods = {
             ZIP: oldUser.zip,
             LendedGamesID: oldUser.LendedGamesID,
             OwnedGamesID: oldUser.OwnedGamesID,
-            BorrowedGame: oldUser.BorrowedGamesID
+            BorrowedGamesID: oldUser.BorrowedGamesID
         };
         if (updatedUser.email != '' && typeof (updatedUser.email) == "string") {
             updateUser.email = updatedUser.email;
@@ -177,12 +183,10 @@ let exportedMethods = {
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
             { _id: ObjectId(userId) },
-            { $addToSet: { LenedGamesID: { id: ObjectId(gameId) } } }
+            { $addToSet: { LendedGamesID: { id: ObjectId(gameId) } } }
         );
-
         if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
             throw 'Add LenedGame failed';
-
         return;
     },
     async addBorrowedGameToUser(userId, gameId) {
@@ -191,7 +195,6 @@ let exportedMethods = {
             { _id: ObjectId(userId) },
             { $addToSet: { BorrowedGamesID: { id: ObjectId(gameId) } } }
         );
-
         if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
             throw 'Add BorrowedGame failed';
 
@@ -213,7 +216,7 @@ let exportedMethods = {
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
             { _id: ObjectId(userId) },
-            { $pull: { LenedGamesID: { id: ObjectId(gameId) } } }
+            { $pull: { LendedGamesID: { id: ObjectId(gameId) } } }
         );
         if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
             throw 'Update failed';

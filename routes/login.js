@@ -5,6 +5,7 @@ const userdata = data.users;
 var bodyParser = require("body-parser");
 
 router.get("/", async (req, res) => {
+  req.session.destroy();
   res.render("pages/login");
 });
 
