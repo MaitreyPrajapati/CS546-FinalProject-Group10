@@ -23,10 +23,21 @@ router.get("/sell/:game_id", async (req, res) => {
 });
 
 // User buys the game listed for selling
-router.get("/buy/:game_id", async (req, res) => {});
+router.get("/buy/:game_id", async (req, res) => {
+  const user = req.seesion.user;
+  const game_id = req.params.game_id;
+  if (!user) res.redirect("/login");
+  else {
+    // const username = user.username;
+    // buy_sell.buyGame(username, game_id)
+  }
+});
 
 // User borrows the game listed for renting
-router.get("borrow/:game_id", async (req, res) => {});
+router.get("borrow/:game_id", async (req, res) => {
+  const user = req.session.user;
+  const game_id = req.params.game_id;
+});
 
 router.get("/rent", async (req, res) => {
   res.render("pages/rent");
