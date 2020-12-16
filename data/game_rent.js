@@ -7,7 +7,7 @@ const users = require("./user");
 const { mongo } = require("mongoose");
 
 let exportedMethods = {
-    async getRentGameById(id){
+    async getRentGameById(id) {
         const gameCollection = await rentGameCollection();
         const rentgame = await gameCollection.findOne({ _id: ObjectId(id) });
         if (!rentgame) throw "Game not found";
@@ -18,6 +18,12 @@ let exportedMethods = {
         const allrentgames = await gameCollection.find({}).toArray();
         if (!allrentgames) throw "empty database";
         return allrentgames;
+    },
+    async getAllRentGamesById(id) {
+        const gameCollection = await rentGameCollection();
+        const game = await gameCollection.find({ borrowerId: id }).toArray();
+        if (!game) throw "user has no rented game";
+        return game;
     },
     async addRentedGame(gameId, rentPrice, duration, lenderId) {
         const rentGameCollections = await rentGameCollection();
@@ -70,25 +76,24 @@ let exportedMethods = {
     async updateRentGame(id, updatedGame) {
 
         let updateGame = {
-          name: updatedGame.name,
-          gameId: updatedGame.gameId,
-          rentPrice: updatedGame.rentPrice,
-          duration: updatedGame.duration,
-          penalty: updatedGame.penalty,
-          lenderId: updatedGame.lenderId,
-          borrowerId: updatedGame.borrowerId,
-          dateOfTransaction: updatedGame.dateOfTransaction
+            name: updatedGame.name,
+            gameId: updatedGame.gameId,
+            rentPrice: updatedGame.rentPrice,
+            duration: updatedGame.duration,
+            penalty: updatedGame.penalty,
+            lenderId: updatedGame.lenderId,
+            borrowerId: updatedGame.borrowerId,
+            dateOfTransaction: updatedGame.dateOfTransaction
         };
-        console.log(updateGame);
         const gameCollection = await rentGameCollection();
         const updatedInfo = await gameCollection.updateOne(
-          { _id: ObjectId(id) },
-          { $set: updateGame }
+            { _id: ObjectId(id) },
+            { $set: updateGame }
         );
         if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount)
-          throw 'Update failed';
-    
+            throw 'Update failed';
+
         return;
-      }
+    }
 };
 module.exports = exportedMethods;

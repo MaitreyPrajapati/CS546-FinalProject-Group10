@@ -4,6 +4,7 @@ const data = require("../data");
 const userdata = data.users;
 const gamedata = data.games;
 const rentgamedata =data.rentgames;
+const sellgamedata = data.sellgames;
 var bodyParser = require("body-parser");
 
 router.get("/", async (req, res) => {
@@ -18,7 +19,8 @@ router.get("/", async (req, res) => {
             city: user.city,
             state: user.state
         }
-        res.render("pages/private", { user: user_info, ownedgames: ownerGame });
+        const rentedGame = await rentgamedata.getAllRentGamesById(req.session.user._id);
+        res.render("pages/private", { user: user_info, ownedgames: ownerGame,rentedGame:rentedGame});
     } else {
         res.status(500).redirect("/login");
     }
@@ -82,9 +84,14 @@ router.post("/addGame", async (req, res) => {
     }
 });
 router.get("/addRentGame/:gameId",async(req,res) => {
+    const gametoRent = await gamedata.getGameById(req.params.gameId);
     if (req.session.user) {
         try {
-            res.render("pages/addRentGame");
+            if(gametoRent.available==false&&gametoRent.isBorrowed==false){
+                res.render("pages/addRentGame");
+            }else{
+                res.status(500).redirect("/private");
+            }
         } catch (error) {
             console.log(error);
         }
@@ -94,7 +101,6 @@ router.get("/addRentGame/:gameId",async(req,res) => {
 });
 router.post("/addRentGame/:gameId", async (req, res) => {
     let rentGame = JSON.parse(JSON.stringify(req.body));
-    console.log(rentGame);
     if (!req.body) {
         res.status(400).json({ error: "You must provide body" });
         return;
@@ -111,6 +117,43 @@ router.post("/addRentGame/:gameId", async (req, res) => {
     try {
         let gameId = req.params.gameId;
         await rentgamedata.addRentedGame(gameId,rentGame.rentprice,rentGame.duration,req.session.user._id,);
+        const rentedgame = await gamedata.getGameById(req.params.gameId);
+        rentedgame.available = true;
+        await gamedata.updateGame(gameId,rentedgame);
+        res.redirect("/private");
+    } catch (e) {
+        res.status(500).json({ error: e });
+    }
+});
+router.get("/addSellGame/:gameId",async(req,res) => {
+    const gametoSell = await gamedata.getGameById(req.params.gameId);
+    if (req.session.user) {
+        try {
+            if(gametoSell.available==false&&gametoSell.isBorrowed==false){
+                res.render("pages/addSellGame");
+            }else{
+                res.status(500).redirect("/private");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        res.status(500).redirect("/login");
+    }
+});
+router.post("/addSellGame/:gameId", async (req, res) => {
+    let rentGame = JSON.parse(JSON.stringify(req.body));
+    if (!req.body) {
+        res.status(400).json({ error: "You must provide body" });
+        return;
+    }
+    if (!rentGame.sellprice) {
+        res.status(400).json({ error: "You must provide rentprice" });
+        return;
+    }
+    try {
+        let gameId = req.params.gameId;
+        await sellgamedata.addSellGame(gameId,rentGame.sellprice,req.session.user._id);
         const rentedgame = await gamedata.getGameById(req.params.gameId);
         rentedgame.available = true;
         await gamedata.updateGame(gameId,rentedgame);

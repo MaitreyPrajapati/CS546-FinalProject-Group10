@@ -62,7 +62,7 @@
                     <td>{{this.platform}}</td>
                     <td>{{this.releaseDate}}</td>
                     <td>
-                        <a href="#" class="ui mini basic teal button">Sell</a>
+                        <a href="/private/addSellGame/{{this._id}}" class="ui mini basic teal button">Sell</a>
                         <a href="/private/addRentGame/{{this._id}}" class="ui mini basic teal button">Rent</a>
                         <a href="/private/deleteGame/{{this._id}}" class="ui mini basic red button">Delete</a>
                     </td>
@@ -84,13 +84,13 @@
 <div class="m-container-small m-padded-tb-big">
     <div class="ui container">
         <h1>Rented Game</h1>
+        <p>{{rentNotavalible}}</p>
         <table class="ui celled table">
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Genre</th>
-                    <th>Platform</th>
-                    <th>Updated Time </th>
+                    <th>Duration</th>
+                    <th>Transaction Time </th>
                     <th>Operation</th>
                 </tr>
             </thead>
@@ -98,12 +98,21 @@
                 <tr>
                     <td>CyberPunk2077</td>
                     <td>RPG</td>
-                    <td>PS5</td>
                     <td>2020-12-09 19:00</td>
                     <td>
                         <a href="#" class="ui mini basic teal button">Return</a>
                     </td>
                 </tr>
+                {{#each rentedGame}} 
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.duration}}</td>
+                    <td>{{this.dateOfTransaction}}</td>
+                    <td>
+                        <a href="/games/return/{{this._id}}" class="ui mini basic teal button">Return</a>
+                    </td>
+                </tr>
+                {{/each}}
             </tbody>
 
         </table>
