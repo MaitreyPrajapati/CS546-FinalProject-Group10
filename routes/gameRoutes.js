@@ -5,14 +5,12 @@ const userdata = data.users;
 const gamedata = data.games;
 const rentgamedata = data.rentgames;
 var bodyParser = require("body-parser");
+const buy_sell = data.buysell;
 
 router.get("/", async (req, res) => {
   const allgame = await gamedata.getAllGames();
   res.json(allgame);
 });
-const gameData = data.games;
-const buy_sell = data.buysell;
-var bodyParser = require("body-parser");
 
 // Gets all the available games for buy and sell.
 router.get("/listings", async (req, res) => {

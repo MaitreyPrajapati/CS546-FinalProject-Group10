@@ -87,11 +87,10 @@ let exportedMethods = {
       throw "Update failed";
 
     return;
-  }
   },
 
   // Returns all the available games that are listed for selling and renting.
-  getAllListedGames: async () => {
+  async getAllListedGames() {
     const gameCollection = await games();
     const available_games = await gameCollection.find({ available: true });
     return available_games;
