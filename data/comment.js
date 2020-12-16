@@ -3,7 +3,6 @@ const comments = mongoCollection.comment;
 const gameCollection = require("../config/mongoCollection").game;
 const { ObjectId } = require("mongodb");
 const games = require("./game");
-const { getGameById } = require("./game");
 
 let exportedMethods = {
     async createComment(userId,gameId,body){
