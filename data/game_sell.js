@@ -62,7 +62,7 @@ async function changeOwner(oldOwner, newOwner, gameId) {
 }
 
 module.exports = {
-  putUpForSale: async (gameId) => {
+  putUpForSale: async (userId, gameId) => {
     try {
       await games.getGameById(gameId);
     } catch (e) {
@@ -70,12 +70,16 @@ module.exports = {
     }
 
     const gameData = await gameCollection();
+
+    const curr_game = gameData.findOne({ _id: ObjectId(gameId) });
+    if (curr_game.ownerId != userId) throw `You do not own this game.`;
+
     const updatePayload = {
       available: true,
       category: "sell",
     };
     const updateCount = await gameData.updateOne(
-      { _id: Object(gameId) },
+      { _id: ObjectId(gameId) },
       { $set: updatePayload }
     );
 
