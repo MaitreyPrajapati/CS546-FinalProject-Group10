@@ -1,5 +1,6 @@
 const gameCollection = require("../config/mongoCollection").game;
 const userCollection = require("../config/mongoCollection").user;
+const sellgameCollection = require("../config/mongoCollection").game_sell;
 const { ObjectId } = require("mongodb");
 const games = require("./game");
 const users = require("./user");
@@ -81,7 +82,6 @@ module.exports = {
 
     if (updateCount == 0) throw `Failed to put up game for the sell.`;
   },
-
   buyGame: async (buyerId, gameId) => {
     try {
       await users.getUserById(buyerId);
@@ -99,4 +99,56 @@ module.exports = {
     const oldOwner = gameData.findOne({ _id: ObjectId(gameId) }).ownerId;
     changeOwner(oldOwner, buyerId, gameId);
   },
+  async getSellGameById(id) {
+    const gameCollection = await sellgameCollection();
+    const sellgame = await gameCollection.findOne({ _id: ObjectId(id) });
+    if (!sellgame) throw "Game not found";
+    return sellgame;
+},
+  async getAllSellGames() {
+    const gameCollection = await sellgameCollection();
+    const allsellgames = await gameCollection.find({}).toArray();
+    if (!allsellgames) throw "empty database";
+    return allsellgames;
+  },
+  async addSellGame(gameId, price,sellerId) {
+    const sellGameCollections = await sellgameCollection();
+    //error check
+    if (!ObjectId.isValid(gameId)) throw "Input a valid objectid";
+    if (typeof (price) != "string") throw "invalid price";
+    if (!ObjectId.isValid(sellerId)) throw "Input a valid objectid";
+    const gamename = await games.getGameById(gameId);
+    let rentGame = {
+      name: gamename.name,
+      gameId: gameId,
+      price: price,
+      sellerId: sellerId,
+      buyerId: '',
+      dateOfTransaction: ''
+    };
+
+    const newInsertRentGame = await sellGameCollections.insertOne(rentGame);
+    if (newInsertRentGame.insertedCount === 0) throw 'Insert failed!';
+    return;
+  },
+  async updateSellGame(id, updatedGame) {
+
+    let updateGame = {
+        name: updatedGame.name,
+        gameId: updatedGame.gameId,
+        rentPrice: updatedGame.price,
+        sellerId: updatedGame.sellerId,
+        buyerId:updatedGame.buyerId,
+        dateOfTransaction: updatedGame.dateOfTransaction
+    };
+    const gameCollection = await sellgameCollection();
+    const updatedInfo = await gameCollection.updateOne(
+        { _id: ObjectId(id) },
+        { $set: updateGame }
+    );
+    if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount)
+        throw 'Update failed';
+
+    return;
+}
 };
