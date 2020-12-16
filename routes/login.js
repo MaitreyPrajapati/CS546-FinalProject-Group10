@@ -28,7 +28,6 @@ router.post("/", async (req, res) => {
     if (await userdata.checkUser(User.email, User.password)) {
       req.session.user = await userdata.getUserByEmail(User.email);
       res.cookie("name", "auth_cookie");
-      console.log(res);
       res.redirect("/private");
     } else {
       res.redirect("/login");

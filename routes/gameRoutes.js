@@ -6,11 +6,45 @@ const gamedata = data.games;
 const rentgamedata = data.rentgames;
 const sellgamedata = data.sellgames;
 var bodyParser = require("body-parser");
+const buy_sell = data.buysell;
 
 router.get("/", async (req, res) => {
   const allgame = await gamedata.getAllGames();
   res.json(allgame);
-})
+});
+
+// Gets all the available games for buy and sell.
+router.get("/listings", async (req, res) => {
+  // gameData.getAllListedGames();
+});
+
+// User lists the game for selling
+router.get("/sell/:game_id", async (req, res) => {
+  const user = req.seesion.user;
+  const game_id = req.params.game_id;
+  if (!user) res.redirect("/login");
+  else {
+    // const username = user.username;
+    // buy_sell.putUpForSale(username, game_id)
+  }
+});
+
+// User buys the game listed for selling
+router.get("/buy/:game_id", async (req, res) => {
+  const user = req.seesion.user;
+  const game_id = req.params.game_id;
+  if (!user) res.redirect("/login");
+  else {
+    // const username = user.username;
+    // buy_sell.buyGame(username, game_id)
+  }
+});
+
+// User borrows the game listed for renting
+router.get("borrow/:game_id", async (req, res) => {
+  const user = req.session.user;
+  const game_id = req.params.game_id;
+});
 
 // game rent part
 router.get("/rent", async (req, res) => {
@@ -98,4 +132,7 @@ router.get("/purchase/:gameId", async (req, res) => {
   }
 });
 
+router.use("*", async (req, res) => {
+  res.render("errors/404pageNotFound");
+});
 module.exports = router;
