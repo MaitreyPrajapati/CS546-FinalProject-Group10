@@ -42,6 +42,17 @@ router.get("/addGame", async (req, res) => {
 router.get("/deleteGame/:gameId", async (req, res) => {
   if (req.session.user) {
     try {
+      await gamedata.getGameById(req.params.gameId);
+    } catch (e) {
+      res.render("errors/common_error", { error: { message: e } });
+    }
+
+    if (rentgamedata.checkIfGameisBorrowed(req.params.gameId)) {
+      return res.render("errors/common_error", {
+        error: { message: "The game is already rented, can not be deleted." },
+      });
+    }
+    try {
       await userdata.removeOwnedGameFromUser(
         req.session.user._id,
         req.params.gameId
