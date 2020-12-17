@@ -85,7 +85,6 @@ let exportedMethods = {
     );
     if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount)
       throw "Update failed";
-
     return;
   },
 

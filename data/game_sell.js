@@ -1,8 +1,24 @@
 const gameCollection = require("../config/mongoCollection").game;
 const userCollection = require("../config/mongoCollection").user;
+const buyTransactions = require("../config/mongoCollection").game_sell;
 const { ObjectId } = require("mongodb");
 const games = require("./game");
 const users = require("./user");
+
+async function addTransaction(gameId, oldOwner, buyerId, price, date) {
+  const buyData = await buyTransactions();
+  const insertCount = buyData.insertOne({
+    gameId,
+    oldOwner,
+    buyerId,
+    price,
+    date,
+  });
+
+  if (insertCount != 1) {
+    throw `Failed to complete the transaction.`;
+  }
+}
 
 // Removes the game from the old user's owned game array
 async function removeGameFromUserOwned(oldOwner, gameId) {
@@ -62,7 +78,7 @@ async function changeOwner(oldOwner, newOwner, gameId) {
 }
 
 module.exports = {
-  putUpForSale: async (userId, gameId) => {
+  putUpForSale: async (userId, gameId, price) => {
     try {
       await games.getGameById(gameId);
     } catch (e) {
@@ -77,13 +93,16 @@ module.exports = {
     const updatePayload = {
       available: true,
       category: "sell",
+      price: price,
     };
+
     const updateCount = await gameData.updateOne(
       { _id: ObjectId(gameId) },
       { $set: updatePayload }
     );
 
     if (updateCount == 0) throw `Failed to put up game for the sell.`;
+    console.log("Successfully added to selling list");
   },
 
   buyGame: async (buyerId, gameId) => {
@@ -100,7 +119,38 @@ module.exports = {
     }
 
     const gameData = await gameCollection();
-    const oldOwner = gameData.findOne({ _id: ObjectId(gameId) }).ownerId;
-    changeOwner(oldOwner, buyerId, gameId);
+    const game = gameData.findOne({ _id: ObjectId(gameId) });
+    const oldOwner = game.ownerId;
+
+    if (game.available != true) {
+      throw `This game is not available for sale.`;
+    }
+
+    if (buyerId == oldOwner.toString()) {
+      throw `Can not buy your own game.`;
+    }
+    await changeOwner(oldOwner, buyerId, gameId);
+    await addTransaction(gameId, oldOwner, buyerId, game.price, new Date());
+  },
+
+  getAllBuyGames: async () => {
+    const gameData = await gameCollection();
+    const available_games = gameData
+      .find({
+        available: true,
+        category: "sell",
+      })
+      .toArray();
+    if (!available_games) throw "No games available";
+    return available_games;
+  },
+
+  removeFromListing: async (gameId) => {
+    const gameData = await gameCollection;
+    try {
+      await games.getGameById(gameId);
+    } catch (e) {
+      throw `${gameId} is not a valid game id.`;
+    }
   },
 };

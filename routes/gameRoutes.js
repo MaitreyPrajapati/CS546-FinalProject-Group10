@@ -18,14 +18,56 @@ router.get("/listings", async (req, res) => {
 });
 
 // User lists the game for selling
-router.get("/sell/:game_id", async (req, res) => {
-  const user = req.seesion.user;
-  const game_id = req.params.game_id;
+router.get("/sell/:game_id$", async (req, res) => {
+  const user = req.session.user;
   if (!user) res.redirect("/login");
   else {
+    const game_id = req.params.game_id;
+    try {
+      gamedata.getGameById(game_id);
+    } catch (e) {
+      res.redirect("error/generalError", {
+        error: { message: "Game Id not found." },
+      });
+    }
+    res.render("pages/sellGame");
     // const username = user.username;
     // buy_sell.putUpForSale(username, game_id)
   }
+});
+
+router.post("/sell/:game_id$", async (req, res) => {
+  const user = req.session.user;
+  if (!user) res.redirect("/login");
+  else {
+    const game_id = req.params.game_id;
+    try {
+      gamedata.getGameById(game_id);
+    } catch (e) {
+      res.redirect("error/generalError", {
+        error: { message: "Game Id not found." },
+      });
+    }
+    try {
+      const price = req.body.sellPrice;
+      console.log(`\n\n\n ${price}`);
+
+      buy_sell.putUpForSale(user._id, game_id, price);
+      res.redirect("/private");
+    } catch (e) {
+      res.redirect("error/generalError", {
+        error: { message: "Game Id not found." },
+      });
+    }
+  }
+});
+
+// All games for buy page
+router.get("/buy$", async (req, res) => {
+  try {
+    const available_for_buying = buy_sell.getAllBuyGames();
+    res.render("pages/purchase", { games: available_for_buying });
+  } catch (e) {}
 });
 
 // User buys the game listed for selling
@@ -74,6 +116,7 @@ router.get("/rent/:gameId", async (req, res) => {
 });
 
 router.use("*", async (req, res) => {
+  console.log("came in error");
   res.render("errors/404pageNotFound");
 });
 module.exports = router;
