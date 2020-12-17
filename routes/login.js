@@ -4,7 +4,7 @@ const data = require("../data");
 const userdata = data.users;
 
 router.get("/", async (req, res) => {
-  if(req.session){
+  if (req.session) {
     req.session.destroy();
   }
   res.render("pages/login");
@@ -26,6 +26,7 @@ router.post("/", async (req, res) => {
     return;
   }
   try {
+    User.email = User.email.toLowerCase();
     if (await userdata.checkUser(User.email, User.password)) {
       req.session.user = await userdata.getUserByEmail(User.email);
       res.cookie("name", "auth_cookie");

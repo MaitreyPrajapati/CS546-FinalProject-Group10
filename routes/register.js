@@ -4,7 +4,6 @@ const data = require("../data");
 const xss = require("xss");
 const userdata = data.users;
 
-
 router.get("/", async (req, res) => {
   res.render("pages/register");
 });
@@ -13,7 +12,7 @@ router.post("/", async (req, res) => {
   let newUser = JSON.parse(JSON.stringify(req.body));
 
   if (!req.body) {
-    res.status(400).json({ error: "You must provide body"});
+    res.status(400).json({ error: "You must provide body" });
     return;
   }
   if (!newUser.email) {
@@ -54,12 +53,24 @@ router.post("/", async (req, res) => {
   }
 
   try {
+    // Always converts the email to lowercase
+    newUser.email = newUser.email.toLowerCase();
     if (await userdata.checkuserByEmail(newUser.email)) {
-      await userdata.addUser(xss(newUser.email), xss(newUser.password), xss(newUser.firstname), xss(newUser.lastname), xss(newUser.profilePicture),
-        xss(newUser.address), xss(newUser.city), xss(newUser.state), xss(newUser.country), xss(newUser.zip));
-        req.session.user = await userdata.getUserByEmail(newUser.email);
-        res.cookie("name","auth_cookie");
-        res.redirect("/private");
+      await userdata.addUser(
+        xss(newUser.email),
+        xss(newUser.password),
+        xss(newUser.firstname),
+        xss(newUser.lastname),
+        xss(newUser.profilePicture),
+        xss(newUser.address),
+        xss(newUser.city),
+        xss(newUser.state),
+        xss(newUser.country),
+        xss(newUser.zip)
+      );
+      req.session.user = await userdata.getUserByEmail(newUser.email);
+      res.cookie("name", "auth_cookie");
+      res.redirect("/private");
     } else {
       res.json({ message: "user already exist." });
     }
@@ -67,6 +78,5 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: e });
   }
 });
-
 
 module.exports = router;
