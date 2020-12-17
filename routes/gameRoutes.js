@@ -57,8 +57,7 @@ router.get("/rent", async (req, res) => {
     const platform = game.platform;
     if (platform == "ps4" || platform == "ps5") {
       rentgames[i].pas = "ps.png";
-    }
-    else if (platform == "xbox") {
+    } else if (platform == "xbox") {
       rentgames[i].pas = "xbox.png";
     } else {
       rentgames[i].pas = "pc.png";
@@ -70,19 +69,32 @@ router.get("/rent", async (req, res) => {
 router.get("/rent/:gameId", async (req, res) => {
   if (req.session.user) {
     const rentgame = await rentgamedata.getRentGameById(req.params.gameId);
-    await userdata.addBorrowedGameToUser(req.session.user._id, req.params.gameId);
-    await userdata.addlendedGameToUser(rentgame.lenderId, req.params.gameId);
-    rentgame.borrowerId = req.session.user._id;
-    //update game.isBorrowed -> ture   &&   game.available -> false
     const gameDetail = await gamedata.getGameById(rentgame.gameId);
-    gameDetail.isBorrowed = true;
-    gameDetail.available = false;
-    await gamedata.updateGame(rentgame.gameId, gameDetail);
-    const date = new Date();
-    rentgame.dateOfTransaction = date.toLocaleString();
-    await rentgamedata.updateRentGame(req.params.gameId, rentgame);
-    // update rent game borrowerid
-    res.redirect("/private");
+    const curr_user = req.session.user._id;
+
+    // If the user already owns the game he/she can't rent it.
+    if (gameDetail.ownerId == curr_user) {
+      res.render("errors/common_error", {
+        error: { message: "You already own the book" },
+      });
+    } else {
+      await userdata.addBorrowedGameToUser(
+        req.session.user._id,
+        req.params.gameId
+      );
+      await userdata.addlendedGameToUser(rentgame.lenderId, req.params.gameId);
+      rentgame.borrowerId = req.session.user._id;
+      //update game.isBorrowed -> ture   &&   game.available -> false
+
+      gameDetail.isBorrowed = true;
+      gameDetail.available = false;
+      await gamedata.updateGame(rentgame.gameId, gameDetail);
+      const date = new Date();
+      rentgame.dateOfTransaction = date.toLocaleString();
+      await rentgamedata.updateRentGame(req.params.gameId, rentgame);
+      // update rent game borrowerid
+      res.redirect("/private");
+    }
   } else {
     res.status(500).redirect("/login");
   }
@@ -91,8 +103,14 @@ router.get("/rent/:gameId", async (req, res) => {
 router.get("/return/:gameId", async (req, res) => {
   if (req.session.user) {
     const returngame = await rentgamedata.getRentGameById(req.params.gameId);
-    await userdata.removeBorrowedGameFromUser(req.session.user._id, req.params.gameId);
-    await userdata.removeLendedGameFromUser(returngame.lenderId, req.params.gameId);
+    await userdata.removeBorrowedGameFromUser(
+      req.session.user._id,
+      req.params.gameId
+    );
+    await userdata.removeLendedGameFromUser(
+      returngame.lenderId,
+      req.params.gameId
+    );
     returngame.borrowerId = "";
     returngame.dateOfTransaction = "";
     //update game.isBorrowed -> false   &&   game.available -> true
@@ -107,7 +125,6 @@ router.get("/return/:gameId", async (req, res) => {
   }
 });
 
-
 // game purchase part
 router.get("/purchase", async (req, res) => {
   const sellgames = await sellgamedata.getAllSellGames();
@@ -120,8 +137,7 @@ router.get("/purchase", async (req, res) => {
     const platform = game.platform;
     if (platform == "ps4" || platform == "ps5") {
       sellgames[i].pas = "ps.png";
-    }
-    else if (platform == "xbox") {
+    } else if (platform == "xbox") {
       sellgames[i].pas = "xbox.png";
     } else {
       sellgames[i].pas = "pc.png";
@@ -131,21 +147,29 @@ router.get("/purchase", async (req, res) => {
 });
 router.get("/purchase/:gameId", async (req, res) => {
   if (req.session.user) {
+    const curr_user = req.session.user._id;
     const sellgame = await sellgamedata.getSellGameById(req.params.gameId);
     const gameDetail = await gamedata.getGameById(sellgame.gameId);
-    await userdata.addOwnedGameToUser(req.session.user._id, gameDetail._id);
-    await userdata.removeOwnedGameFromUser(sellgame.sellerId, gameDetail._id);
-    sellgame.buyerId = req.session.user._id;
-    //game.available -> false game.ownerId -> buyer
-    gameDetail.available = false;
-    gameDetail.ownerId = req.session.user._id;
-    await gamedata.updateGame(sellgame.gameId, gameDetail);
-    const date = new Date();
-    sellgame.dateOfTransaction = date.toLocaleString();
-    sellgame.buyerId = req.session.user._id;
-    await sellgamedata.updateSellGame(req.params.gameId, sellgame);
-    // update rent game borrowerid
-    res.redirect("/private");
+
+    if (curr_user == gameDetail.ownerId) {
+      res.render("errors/common_error", {
+        error: { message: "Can not buy your own book." },
+      });
+    } else {
+      await userdata.addOwnedGameToUser(req.session.user._id, gameDetail._id);
+      await userdata.removeOwnedGameFromUser(sellgame.sellerId, gameDetail._id);
+      sellgame.buyerId = req.session.user._id;
+      //game.available -> false game.ownerId -> buyer
+      gameDetail.available = false;
+      gameDetail.ownerId = req.session.user._id;
+      await gamedata.updateGame(sellgame.gameId, gameDetail);
+      const date = new Date();
+      sellgame.dateOfTransaction = date.toLocaleString();
+      sellgame.buyerId = req.session.user._id;
+      await sellgamedata.updateSellGame(req.params.gameId, sellgame);
+      // update rent game borrowerid
+      res.redirect("/private");
+    }
   } else {
     res.status(500).redirect("/login");
   }
