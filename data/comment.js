@@ -26,7 +26,7 @@ let exportedMethods = {
         if(insertNewComment.insertedCount == 0) throw 'New comment was not added';
 
         let gameComments = await games.getGameById(gameId).comments;
-        gameComments.comments.push(insertNewComment.insertedId);
+        gameComments.push(insertNewComment.insertedId);
         const newGameComment = {
             comments:gameComments
         };
@@ -34,6 +34,8 @@ let exportedMethods = {
             {_id:gameId},
             {$set:newGameComment}
         )
+        
+
         if(newGameCommentCount == 0) throw 'Comment was not added to the game'
         
         return await this.getComment(insertNewComment.insertedId);
