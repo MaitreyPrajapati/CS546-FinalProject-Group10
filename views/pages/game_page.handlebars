@@ -1,0 +1,25 @@
+<h1>
+    <img class="ui avatar image" src="/public/img/{{this.pac}}"> {{this.name}} 
+</h1>
+
+<div>
+    <div>
+        <ul>
+            <h3><li><span>Platform : </span>{{this.platform}}</li></h3>
+            <h3><li><span>Genre : </span>{{this.genre}}</li></h3>
+            <h3><li><span>Release Date : </span>{{this.rdate}}</li></h3>
+            <h3><li><span>Details : </span> {{this.gameDetail}}</li></h3>
+        </ul>
+    </div>
+
+<ul>
+</ul>
+</div>
+<div>
+    <h3>Comments : </h3>
+    {{#each this.comments}}
+        <ul>
+            <li><span>{{this.author}}</span> : {{this.message}}</li>
+        </ul>
+    {{/each}}
+</div>
