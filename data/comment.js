@@ -6,9 +6,9 @@ const games = require("./game");
 
 let exportedMethods = {
     async createComment(userId,gameId,body){
-        if (typeof body != string || !body || body == undefined) throw 'Body is supposed to take in a string'
-        if(!ObjectId.isValid(userId)) throw 'ID for user is not valid'
-        if(!ObjectId.isValid(gameId)) throw 'ID for game is not valid'
+        if (typeof body != string || !body || body == undefined) throw 'Body is supposed to take in a string';
+        if(!ObjectId.isValid(userId)) throw 'ID for user is not valid';
+        if(!ObjectId.isValid(gameId)) throw 'ID for game is not valid';
 
         const commentCollection = await comments();
         const gameData = await gameCollection();
@@ -33,7 +33,7 @@ let exportedMethods = {
         const newGameCommentCount = await gameData.updateOne(
             {_id:gameId},
             {$set:newGameComment}
-        )
+        );
         
 
         if(newGameCommentCount == 0) throw 'Comment was not added to the game'
@@ -45,12 +45,12 @@ let exportedMethods = {
         const commentCollection = await comments();
         const comment = await commentCollection.findOne({_id:ObjectId(id)});
         if(!comment) throw 'comment not found';
-        return comment
+        return comment;
     },
 
     async removeComment(id){
         const commentCollection = await comments();
-        const deletedComment = await commentCollection.removeOne({_id:ObjectId(id)})
+        const deletedComment = await commentCollection.removeOne({_id:ObjectId(id)});
         if (deletedComment.deletedCount == 0) throw 'Game was not deleted';
         return;
     },
@@ -61,7 +61,7 @@ let exportedMethods = {
             userID: newComment.userID,
             gameID: newComment.gameID,
             dateOfComment:newComment.dateOfComment
-        }
+        };
         const commentCollection = comments();
         const updatedComment = await commentCollection.updatedOne(
             {_id:ObjectId(id)},
@@ -74,4 +74,4 @@ let exportedMethods = {
 
 }
 
-module.exports = exportedMethods
+module.exports = exportedMethods;
