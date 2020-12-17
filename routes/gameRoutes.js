@@ -5,7 +5,6 @@ const userdata = data.users;
 const gamedata = data.games;
 const rentgamedata = data.rentgames;
 const sellgamedata = data.sellgames;
-var bodyParser = require("body-parser");
 const buy_sell = data.buysell;
 
 router.get("/", async (req, res) => {
