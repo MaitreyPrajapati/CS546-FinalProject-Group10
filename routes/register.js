@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const data = require("../data");
+const xss = require("xss");
 const userdata = data.users;
 var bodyParser = require("body-parser");
 
@@ -55,8 +56,8 @@ router.post("/", async (req, res) => {
 
   try {
     if (await userdata.checkuserByEmail(newUser.email)) {
-      await userdata.addUser(newUser.email, newUser.password, newUser.firstname, newUser.lastname, newUser.profilePicture,
-        newUser.address, newUser.city, newUser.state, newUser.country, newUser.zip);
+      await userdata.addUser(xss(newUser.email), xss(newUser.password), xss(newUser.firstname), xss(newUser.lastname), xss(newUser.profilePicture),
+        xss(newUser.address), xss(newUser.city), xss(newUser.state), xss(newUser.country), xss(newUser.zip));
         req.session.user = await userdata.getUserByEmail(newUser.email);
         res.cookie("name","auth_cookie");
         res.redirect("/private");
@@ -67,8 +68,6 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: e });
   }
 });
-
-
 
 
 module.exports = router;

@@ -1,5 +1,10 @@
 <div class="ui container">
     <h1>Personal Info</h1>
+   <div class="item">
+       <button class="ui secondary button">
+           <a href="/logout" class="m-item item button">Log out</a>
+       </button>
+    </div>
     <table class="ui horizon celled table">
         <thead>
             <tr>
@@ -55,7 +60,7 @@
                         <a href="#" class="ui mini basic red button">Delete</a>
                     </td>
                 </tr>
-                {{#each ownedgames}} 
+                {{#each ownedgames}}
                 <tr>
                     <td>{{this.name}}</td>
                     <td>{{this.genre}}</td>
@@ -103,7 +108,7 @@
                         <a href="#" class="ui mini basic teal button">Return</a>
                     </td>
                 </tr>
-                {{#each rentedGame}} 
+                {{#each rentedGame}}
                 <tr>
                     <td>{{this.name}}</td>
                     <td>{{this.duration}}</td>

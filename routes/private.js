@@ -5,6 +5,7 @@ const userdata = data.users;
 const gamedata = data.games;
 const rentgamedata =data.rentgames;
 const sellgamedata = data.sellgames;
+const xss = require('xss');
 var bodyParser = require("body-parser");
 
 router.get("/", async (req, res) => {
@@ -76,7 +77,7 @@ router.post("/addGame", async (req, res) => {
 
     try {
         let userId = req.session.user._id;
-        let gameId = await gamedata.addGame(userId, newGame.name, newGame.genre, newGame.gameDetail, newGame.releaseDate, newGame.platform);
+        let gameId = await gamedata.addGame(userId, xss(newGame.name), xss(newGame.genre), xss(newGame.gameDetail), xss(newGame.releaseDate), xss(newGame.platform));
         await userdata.addOwnedGameToUser(userId, gameId);
         res.redirect("/private");
     } catch (e) {
@@ -116,7 +117,7 @@ router.post("/addRentGame/:gameId", async (req, res) => {
 
     try {
         let gameId = req.params.gameId;
-        await rentgamedata.addRentedGame(gameId,rentGame.rentprice,rentGame.duration,req.session.user._id,);
+        await rentgamedata.addRentedGame(xss(gameId),xss(rentGame.rentprice),xss(rentGame.duration),xss(req.session.user._id));
         const rentedgame = await gamedata.getGameById(req.params.gameId);
         rentedgame.available = true;
         await gamedata.updateGame(gameId,rentedgame);
@@ -153,7 +154,7 @@ router.post("/addSellGame/:gameId", async (req, res) => {
     }
     try {
         let gameId = req.params.gameId;
-        await sellgamedata.addSellGame(gameId,rentGame.sellprice,req.session.user._id);
+        await sellgamedata.addSellGame(xss(gameId),xss(rentGame.sellprice),xss(req.session.user._id));
         const rentedgame = await gamedata.getGameById(req.params.gameId);
         rentedgame.available = true;
         await gamedata.updateGame(gameId,rentedgame);
