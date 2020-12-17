@@ -3,7 +3,6 @@ const router = express.Router();
 const data = require("../data");
 const xss = require("xss");
 const userdata = data.users;
-var bodyParser = require("body-parser");
 
 
 router.get("/", async (req, res) => {

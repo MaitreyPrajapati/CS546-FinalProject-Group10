@@ -1,10 +1,6 @@
 <div class="ui container">
     <h1>Personal Info</h1>
-   <div class="item">
-       <button class="ui secondary button">
-           <a href="/logout" class="m-item item button">Log out</a>
-       </button>
-    </div>
+   
     <table class="ui horizon celled table">
         <thead>
             <tr>
@@ -49,17 +45,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>CyberPunk2077</td>
-                    <td>RPG</td>
-                    <td>PS5</td>
-                    <td>2020-12-09 19:00</td>
-                    <td>
-                        <a href="#" class="ui mini basic teal button">Sell</a>
-                        <a href="#" class="ui mini basic teal button">Rent</a>
-                        <a href="#" class="ui mini basic red button">Delete</a>
-                    </td>
-                </tr>
                 {{#each ownedgames}}
                 <tr>
                     <td>{{this.name}}</td>
@@ -100,14 +85,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>CyberPunk2077</td>
-                    <td>RPG</td>
-                    <td>2020-12-09 19:00</td>
-                    <td>
-                        <a href="#" class="ui mini basic teal button">Return</a>
-                    </td>
-                </tr>
                 {{#each rentedGame}}
                 <tr>
                     <td>{{this.name}}</td>
@@ -123,3 +100,4 @@
         </table>
     </div>
 </div>
+

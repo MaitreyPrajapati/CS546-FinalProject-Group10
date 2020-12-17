@@ -6,7 +6,6 @@ const gamedata = data.games;
 const rentgamedata =data.rentgames;
 const sellgamedata = data.sellgames;
 const xss = require('xss');
-var bodyParser = require("body-parser");
 
 router.get("/", async (req, res) => {
     if (req.session.user) {

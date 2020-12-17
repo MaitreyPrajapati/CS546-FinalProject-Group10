@@ -17,6 +17,14 @@ const constructorMethod = (app) => {
   app.use("/userDelete", userDeleteRoute);
   app.use("/userUpdate", userUpdateRoute);
   app.use("/games", gameRoutes);
+  app.get("/getSession", async (req, res) => {
+    if(req.session.user){
+      res.json({result:true,name:req.session.user.email});
+      return;
+    }
+    res.json({result:false});
+    return;
+  })
 };
 
 module.exports = constructorMethod;
