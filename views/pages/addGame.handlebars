@@ -1,6 +1,6 @@
 <div class="ui middle aligned center aligned grid" style="margin-top: 20px; margin-bottom:20px">
 
-  <form id="addGameForm-form" name="addGameForm" class="ui form" method="POST">
+  <form id="addGameForm-form" name="addGameForm" class="ui large form" method="POST">
     <h2 class="ui dividing header">Add Game</h2>
     <p>
       <label>Name:</label>
@@ -15,7 +15,13 @@
     <div class="two fields">
       <div class="field">
         <label for='platform'>Platform:</label>
-        <input type="text" name="platform" id="platform" placeholder="Platform" required />
+        <select name="platform" id="platform" class="ui fluid dropdown" required />
+          <option value=""></option>
+          <option value="pc">PC</option>
+          <option value="ps4">PS4</option>
+          <option value="ps5">PS5</option>
+          <option value="xbox">Xbox</option>
+        </select>
       </div>
       <div class="field">
         <label for='releaseDate'>Release Date:</label>

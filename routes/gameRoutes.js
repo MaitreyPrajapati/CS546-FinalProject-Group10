@@ -53,6 +53,16 @@ router.get("/rent", async (req, res) => {
     if (rentgames[i].borrowerId == "") {
       showgames.push(rentgames[i]);
     }
+    const game = await gamedata.getGameById(rentgames[i].gameId);
+    const platform = game.platform;
+    if (platform == "ps4" || platform == "ps5") {
+      rentgames[i].pas = "ps.png";
+    }
+    else if (platform == "xbox") {
+      rentgames[i].pas = "xbox.png";
+    } else {
+      rentgames[i].pas = "pc.png";
+    }
   }
   res.render("pages/rent", { rentgames: showgames });
 });
@@ -67,7 +77,7 @@ router.get("/rent/:gameId", async (req, res) => {
     const gameDetail = await gamedata.getGameById(rentgame.gameId);
     gameDetail.isBorrowed = true;
     gameDetail.available = false;
-    await gamedata.updateGame(rentgame.gameId,gameDetail);
+    await gamedata.updateGame(rentgame.gameId, gameDetail);
     const date = new Date();
     rentgame.dateOfTransaction = date.toLocaleString();
     await rentgamedata.updateRentGame(req.params.gameId, rentgame);
@@ -89,7 +99,7 @@ router.get("/return/:gameId", async (req, res) => {
     const gameDetail = await gamedata.getGameById(returngame.gameId);
     gameDetail.isBorrowed = false;
     gameDetail.available = true;
-    await gamedata.updateGame(returngame.gameId,gameDetail);
+    await gamedata.updateGame(returngame.gameId, gameDetail);
     await rentgamedata.updateRentGame(req.params.gameId, returngame);
     res.redirect("/private");
   } else {
@@ -101,10 +111,20 @@ router.get("/return/:gameId", async (req, res) => {
 // game purchase part
 router.get("/purchase", async (req, res) => {
   const sellgames = await sellgamedata.getAllSellGames();
-  const showgames = new Array();
+  let showgames = new Array();
   for (let i in sellgames) {
     if (sellgames[i].buyerId == "") {
       showgames.push(sellgames[i]);
+    }
+    const game = await gamedata.getGameById(sellgames[i].gameId);
+    const platform = game.platform;
+    if (platform == "ps4" || platform == "ps5") {
+      sellgames[i].pas = "ps.png";
+    }
+    else if (platform == "xbox") {
+      sellgames[i].pas = "xbox.png";
+    } else {
+      sellgames[i].pas = "pc.png";
     }
   }
   res.render("pages/purchase", { sellgames: showgames });
@@ -119,7 +139,7 @@ router.get("/purchase/:gameId", async (req, res) => {
     //game.available -> false game.ownerId -> buyer
     gameDetail.available = false;
     gameDetail.ownerId = req.session.user._id;
-    await gamedata.updateGame(sellgame.gameId,gameDetail);
+    await gamedata.updateGame(sellgame.gameId, gameDetail);
     const date = new Date();
     sellgame.dateOfTransaction = date.toLocaleString();
     sellgame.buyerId = req.session.user._id;
