@@ -3,12 +3,12 @@
     <h2 class="ui dividing header">Add Rent Game</h2>
     <p>
       <label for='rentprice'>Rent Price:</label>
-      <input type="text" name="rentprice" id="addrentgame_price" placeholder="Rent Price" required />
+      <input type="number" name="rentprice" id="addrentgame_price" placeholder="Rent Price" min='1' required />
     </p>
 
     <p>
       <label for='duration'>Duration:</label>
-      <input type="text" name="duration" id="addgame_duration" placeholder="15" required />
+      <input type="number" name="duration" id="addgame_duration" placeholder="15" min='1' required />
     </p>
     <p>
       <button class="ui button"><a href="/private">Back</a></button>

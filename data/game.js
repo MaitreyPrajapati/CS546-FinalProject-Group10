@@ -1,5 +1,7 @@
 const mongoCollections = require("../config/mongoCollection");
 const games = mongoCollections.game;
+const rentGameData = mongoCollections.game_rent;
+const sellGameData = mongoCollections.game_sell;
 var BSON = require("mongodb");
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
@@ -54,10 +56,23 @@ let exportedMethods = {
     return newInsertInformation.insertedId;
   },
   async removeGame(id) {
+    console.log(`\n\n\n${id}\n\n`);
     const gameCollection = await games();
+    const rentCollection = await rentGameData();
+    const sellCollection = await sellGameData();
+
     const deletedGame = await gameCollection.removeOne({
       _id: BSON.ObjectID.createFromHexString(id),
     });
+
+    await rentCollection.removeOne({
+      gameId: id,
+    });
+
+    await sellCollection.removeOne({
+      gameId: id,
+    });
+
     if (deletedGame.deletedCount === 0) {
       throw `Could not delete game with id of ${id}`;
     }
