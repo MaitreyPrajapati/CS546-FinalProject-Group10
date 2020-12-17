@@ -1,15 +1,18 @@
 @charset "utf-8";
 
-.typo p{
-	font-size: 16px;
-	font-weight: 300;
-	line-height: 1.8;
-	text-align: justify;
+.typo p {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.8;
+  text-align: justify;
 }
 
-
-.typo button,.typo input,.typo select,.typo textarea {
-  font: 300 1em/1.8 PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+.typo button,
+.typo input,
+.typo select,
+.typo textarea {
+  font: 300 1em/1.8 PingFang SC, Lantinghei SC, Microsoft Yahei,
+    Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
 }
 
 .typo button::-moz-focus-inner,
@@ -18,16 +21,15 @@
   border: 0;
 }
 
-
 .typo table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.typo fieldset,.typo img {
+.typo fieldset,
+.typo img {
   border: 0;
 }
-
 
 .typo blockquote {
   position: relative;
@@ -38,56 +40,63 @@
   margin: 1em 3em 1em 2em;
 }
 
-@media only screen and ( max-width: 640px ) {
+@media only screen and (max-width: 640px) {
   blockquote {
     margin: 1em 0;
   }
 }
 
-
-.typo acronym,.typo abbr {
+.typo acronym,
+.typo abbr {
   border-bottom: 1px dotted;
   font-variant: normal;
   text-decoration: none;
 }
 
-
 .typo abbr {
   cursor: help;
 }
-
 
 .typo del {
   text-decoration: line-through;
 }
 
-.typo address,.typo caption,.typo cite,.typo code,.typo dfn,.typo em,.typo th,.typo var {
+.typo address,
+.typo caption,
+.typo cite,
+.typo code,
+.typo dfn,
+.typo em,
+.typo th,
+.typo var {
   font-style: normal;
   font-weight: 400;
 }
 
-
-.typo ul,.typo ol {
+.typo ul,
+.typo ol {
   list-style: none;
 }
 
-
-.typo caption,.typo th {
+.typo caption,
+.typo th {
   text-align: left;
 }
 
-.typo q:before,.typo q:after {
-  content: '';
+.typo q:before,
+.typo q:after {
+  content: "";
 }
 
-
-.typo sub,.typo sup {
+.typo sub,
+.typo sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
 }
 
-:root sub, :root sup {
+:root sub,
+:root sup {
   vertical-align: baseline; /* for ie9 and other modern browsers */
 }
 
@@ -98,7 +107,6 @@
 .typo sub {
   bottom: -0.25em;
 }
-
 
 .typo a {
   color: #1abc9c;
@@ -118,17 +126,15 @@
   text-decoration: none;
 }
 
-
-.typo ins,.typo a {
+.typo ins,
+.typo a {
   text-decoration: none;
 }
 
-
-
-.typo u, .typo-u {
+.typo u,
+.typo-u {
   text-decoration: underline;
 }
-
 
 .typo mark {
   background: #fffdd1;
@@ -137,9 +143,10 @@
   margin: 0 5px;
 }
 
-
-.typo pre,.typo code,.typo pre tt {
-  font-family: Courier, 'Courier New', monospace;
+.typo pre,
+.typo code,
+.typo pre tt {
+  font-family: Courier, "Courier New", monospace;
 }
 
 .typo pre {
@@ -150,7 +157,6 @@
   -webkit-overflow-scrolling: touch;
 }
 
-
 .typo hr {
   border: none;
   border-bottom: 1px solid #cfcfcf;
@@ -158,25 +164,25 @@
   height: 10px;
 }
 
-
-.typo small, .typo-small,
-
+.typo small,
+.typo-small,
 .typo figcaption {
   font-size: 0.9em;
   color: #888;
 }
 
-.typo strong,.typo b {
+.typo strong,
+.typo b {
   font-weight: bold;
   color: #000;
 }
-
 
 [draggable] {
   cursor: move;
 }
 
-.clearfix:before, .clearfix:after {
+.clearfix:before,
+.clearfix:after {
   content: "";
   display: table;
 }
@@ -189,8 +195,9 @@
   zoom: 1;
 }
 
-
-.textwrap, .textwrap td, .textwrap th {
+.textwrap,
+.textwrap td,
+.textwrap th {
   word-wrap: break-word;
   word-break: break-all;
 }
@@ -199,84 +206,132 @@
   table-layout: fixed;
 }
 
-
 .serif {
   font-family: Palatino, Optima, Georgia, serif;
 }
 
-
-.typo p, .typo pre, .typo ul, .typo ol, .typo dl, .typo form, .typo hr, .typo table,
-.typo-p, .typo-pre, .typo-ul, .typo-ol, .typo-dl, .typo-form, .typo-hr, .typo-table, blockquote {
-  margin-bottom: 1.2em
+.typo p,
+.typo pre,
+.typo ul,
+.typo ol,
+.typo dl,
+.typo form,
+.typo hr,
+.typo table,
+.typo-p,
+.typo-pre,
+.typo-ul,
+.typo-ol,
+.typo-dl,
+.typo-form,
+.typo-hr,
+.typo-table,
+blockquote {
+  margin-bottom: 1.2em;
 }
 
-.typo h1,.typo h2,.typo h3,.typo h4,.typo h5,.typo h6 {
-  font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+.typo h1,
+.typo h2,
+.typo h3,
+.typo h4,
+.typo h5,
+.typo h6 {
+  font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei,
+    Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
   font-weight: 100;
   color: #000;
   line-height: 1.35;
 }
- 
 
-.typo h1, .typo h2, .typo h3, .typo h4, .typo h5, .typo h6,
-.typo-h1, .typo-h2, .typo-h3, .typo-h4, .typo-h5, .typo-h6 {
+.typo h1,
+.typo h2,
+.typo h3,
+.typo h4,
+.typo h5,
+.typo h6,
+.typo-h1,
+.typo-h2,
+.typo-h3,
+.typo-h4,
+.typo-h5,
+.typo-h6 {
   margin-top: 1.2em;
   margin-bottom: 0.6em;
   line-height: 1.35;
 }
 
-.typo h1, .typo-h1 {
+.typo h1,
+.typo-h1 {
   font-size: 2em;
 }
 
-.typo h2, .typo-h2 {
+.typo h2,
+.typo-h2 {
   font-size: 1.8em;
 }
 
-.typo h3, .typo-h3 {
+.typo h3,
+.typo-h3 {
   font-size: 1.6em;
 }
 
-.typo h4, .typo-h4 {
+.typo h4,
+.typo-h4 {
   font-size: 1.4em;
 }
 
-.typo h5, .typo h6, .typo-h5, .typo-h6 {
+.typo h5,
+.typo h6,
+.typo-h5,
+.typo-h6 {
   font-size: 1.2em;
 }
 
-
-.typo ul, .typo-ul {
+.typo ul,
+.typo-ul {
   margin-left: 1.3em;
   list-style: disc;
 }
 
-.typo ol, .typo-ol {
+.typo ol,
+.typo-ol {
   list-style: decimal;
   margin-left: 1.9em;
 }
 
-.typo li ul, .typo li ol, .typo-ul ul, .typo-ul ol, .typo-ol ul, .typo-ol ol {
+.typo li ul,
+.typo li ol,
+.typo-ul ul,
+.typo-ul ol,
+.typo-ol ul,
+.typo-ol ol {
   margin-bottom: 0.8em;
   margin-left: 2em;
 }
 
-.typo li ul, .typo-ul ul, .typo-ol ul {
+.typo li ul,
+.typo-ul ul,
+.typo-ol ul {
   list-style: circle;
 }
 
-
-.typo table th, .typo table td, .typo-table th, .typo-table td, .typo table caption {
+.typo table th,
+.typo table td,
+.typo-table th,
+.typo-table td,
+.typo table caption {
   border: 1px solid #ddd;
   padding: 0.5em 1em;
   color: #666;
 }
 
-.typo table th, .typo-table th {
+.typo table th,
+.typo-table th {
   background: #fbfbfb;
 }
 
-.typo table thead th, .typo-table thead th {
+.typo table thead th,
+.typo-table thead th {
   background: #f1f1f1;
 }
 
@@ -284,17 +339,19 @@
   border-bottom: none;
 }
 
-
-.typo-input, .typo-textarea {
+.typo-input,
+.typo-textarea {
   -webkit-appearance: none;
   border-radius: 0;
 }
 
-.typo-em, .typo em, legend, caption {
+.typo-em,
+.typo em,
+legend,
+caption {
   color: #000;
   font-weight: inherit;
 }
-
 
 .typo-em {
   position: relative;
