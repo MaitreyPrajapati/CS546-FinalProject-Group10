@@ -11,15 +11,23 @@
             <h3><li><span>Details : </span> {{this.gameDetail}}</li></h3>
         </ul>
     </div>
-
-<ul>
-</ul>
 </div>
 <div>
     <h3>Comments : </h3>
+    <dl>
     {{#each this.comments}}
-        <ul>
-            <li><span>{{this.author}}</span> : {{this.message}}</li>
-        </ul>
+        
+            <dt class='bold-txt'>{{this.author}}:</dt>  <dd>{{this.message}}</dd>
+        
     {{/each}}
+    </dl>
 </div>
+<div>
+    <form method='post' id='comment-form' action='/comment/{{this.game_id}}'>
+        <label for='message'> Write comment here:</label>
+        <input type="text" name='message' id='message'/>
+        <button type='submit'>Submit</button>
+    </form>
+</div>
+
+{{!-- Insert JQ file here --}}

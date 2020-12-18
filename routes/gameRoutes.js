@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const data = require("../data");
+const commentRoutes = require("./commentRoutes");
 const userdata = data.users;
 const gamedata = data.games;
 const rentgamedata = data.rentgames;
 const sellgamedata = data.sellgames;
+const commentData = data.comments;
 const buy_sell = data.buysell;
 
 // Some routes removed
@@ -145,7 +147,6 @@ router.get("/:game_id$", async (req, res) => {
   try {
     const curr_game = await gamedata.getGameById(req.params.game_id);
     const owner = await userdata.getUserById(curr_game.ownerId);
-    console.log(curr_game);
     var pac = "";
     if (curr_game.platform == "ps5" || curr_game.platform == "ps4") {
       pac = "ps.png";
@@ -154,6 +155,7 @@ router.get("/:game_id$", async (req, res) => {
     } else {
       pac = "pc.png";
     }
+    const comments = await commentData.getCommentsByGameID(req.params.game_id);
     // Have to load comments yet
     return res.render("pages/game_page", {
       name: curr_game.name,
@@ -161,8 +163,9 @@ router.get("/:game_id$", async (req, res) => {
       gameDetail: curr_game.gameDetail,
       rdate: curr_game.releaseDate,
       platform: curr_game.platform,
-      comments: curr_game.comments,
+      comments,
       pac,
+      game_id: req.params.game_id,
       owner: {
         fname: owner.firstName,
         lname: owner.lastName,
@@ -177,6 +180,7 @@ router.get("/:game_id$", async (req, res) => {
   }
 });
 
+router.use("comment", commentRoutes);
 router.use("*", async (req, res) => {
   res.render("errors/404pageNotFound");
 });

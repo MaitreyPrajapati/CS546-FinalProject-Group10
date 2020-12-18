@@ -141,3 +141,7 @@
 .hide {
   display: none;
 }
+
+.bold-txt {
+  font-weight: bold;
+}

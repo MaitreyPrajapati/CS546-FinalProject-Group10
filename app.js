@@ -5,6 +5,14 @@ const configRoutes = require("./routes");
 const exphbs = require("express-handlebars");
 const session = require("express-session");
 
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+
+app.use(express.json());
+
 const handlebarsInstance = exphbs.create({
   defaultLayout: "main",
   helpers: {
@@ -15,7 +23,7 @@ const handlebarsInstance = exphbs.create({
     },
   },
 });
-app.use;
+
 //Use cookie to implement login function
 app.use(
   session({
@@ -28,8 +36,6 @@ app.use(
 );
 
 app.use("/public", static);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.engine("handlebars", handlebarsInstance.engine);
 app.set("view engine", "handlebars");
