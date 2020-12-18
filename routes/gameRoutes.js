@@ -41,7 +41,7 @@ router.get("/rent/:gameId", async (req, res) => {
     // If the user already owns the game he/she can't rent it.
     if (gameDetail.ownerId == curr_user) {
       res.render("errors/common_error", {
-        error: { message: "You already own the book" },
+        error: { message: "You already own the game" },
       });
     } else {
       await userdata.addBorrowedGameToUser(
@@ -119,6 +119,7 @@ router.get("/purchase/:gameId", async (req, res) => {
 
     if (curr_user == gameDetail.ownerId) {
       res.render("errors/common_error", {
+
         error: { message: "Can not buy your own Game." },
       });
     } else {
