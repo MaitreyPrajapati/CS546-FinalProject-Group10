@@ -180,7 +180,7 @@ router.get("/:game_id$", async (req, res) => {
   }
 });
 
-router.use("comment", commentRoutes);
+// router.use("comment", commentRoutes);
 router.use("*", async (req, res) => {
   res.render("errors/404pageNotFound");
 });
