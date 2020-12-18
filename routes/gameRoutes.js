@@ -1,53 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const data = require("../data");
+const commentRoutes = require("./commentRoutes");
 const userdata = data.users;
 const gamedata = data.games;
 const rentgamedata = data.rentgames;
 const sellgamedata = data.sellgames;
+const commentData = data.comments;
 const buy_sell = data.buysell;
 
-router.get("/", async (req, res) => {
-  const allgame = await gamedata.getAllGames();
-  res.json(allgame);
-});
-
-// Gets all the available games for buy and sell.
-router.get("/listings", async (req, res) => {
-  // gameData.getAllListedGames();
-});
-
-// User lists the game for selling
-router.get("/sell/:game_id", async (req, res) => {
-  const user = req.seesion.user;
-  const game_id = req.params.game_id;
-  if (!user) res.redirect("/login");
-  else {
-    // const username = user.username;
-    // buy_sell.putUpForSale(username, game_id)
-  }
-});
-
-// User buys the game listed for selling
-router.get("/buy/:game_id", async (req, res) => {
-  const user = req.seesion.user;
-  const game_id = req.params.game_id;
-  if (!user) res.redirect("/login");
-  else {
-    // const username = user.username;
-    // buy_sell.buyGame(username, game_id)
-  }
-});
-
-// User borrows the game listed for renting
-router.get("borrow/:game_id", async (req, res) => {
-  const user = req.session.user;
-  const game_id = req.params.game_id;
-});
+// Some routes removed
 
 // game rent part
 router.get("/rent", async (req, res) => {
   const rentgames = await rentgamedata.getAllRentGames();
+  console.log(rentgames);
   const showgames = new Array();
   for (let i in rentgames) {
     if (rentgames[i].borrowerId == "") {
@@ -175,6 +142,45 @@ router.get("/purchase/:gameId", async (req, res) => {
   }
 });
 
+//Individual game page
+router.get("/:game_id$", async (req, res) => {
+  try {
+    const curr_game = await gamedata.getGameById(req.params.game_id);
+    const owner = await userdata.getUserById(curr_game.ownerId);
+    var pac = "";
+    if (curr_game.platform == "ps5" || curr_game.platform == "ps4") {
+      pac = "ps.png";
+    } else if ((curr_game.platform = "xbox")) {
+      pac = "xbox.png";
+    } else {
+      pac = "pc.png";
+    }
+    const comments = await commentData.getCommentsByGameID(req.params.game_id);
+    // Have to load comments yet
+    return res.render("pages/game_page", {
+      name: curr_game.name,
+      genre: curr_game.genre,
+      gameDetail: curr_game.gameDetail,
+      rdate: curr_game.releaseDate,
+      platform: curr_game.platform,
+      comments,
+      pac,
+      game_id: req.params.game_id,
+      owner: {
+        fname: owner.firstName,
+        lname: owner.lastName,
+        ownerCity: owner.city,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).render("errors/common_error.handlebars", {
+      error: { message: "Could not find the game of given ID." },
+    });
+  }
+});
+
+router.use("comment", commentRoutes);
 router.use("*", async (req, res) => {
   res.render("errors/404pageNotFound");
 });

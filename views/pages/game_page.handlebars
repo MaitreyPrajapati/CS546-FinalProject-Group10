@@ -1,0 +1,33 @@
+<h1>
+    <img class="ui avatar image" src="/public/img/{{this.pac}}"> {{this.name}} 
+</h1>
+
+<div>
+    <div>
+        <ul>
+            <h3><li><span>Platform : </span>{{this.platform}}</li></h3>
+            <h3><li><span>Genre : </span>{{this.genre}}</li></h3>
+            <h3><li><span>Release Date : </span>{{this.rdate}}</li></h3>
+            <h3><li><span>Details : </span> {{this.gameDetail}}</li></h3>
+        </ul>
+    </div>
+</div>
+<div>
+    <h3>Comments : </h3>
+    <dl>
+    {{#each this.comments}}
+        
+            <dt class='bold-txt'>{{this.author}}:</dt>  <dd>{{this.message}}</dd>
+        
+    {{/each}}
+    </dl>
+</div>
+<div>
+    <form method='post' id='comment-form' action='/comment/{{this.game_id}}'>
+        <label for='message'> Write comment here:</label>
+        <input type="text" name='message' id='message'/>
+        <button type='submit'>Submit</button>
+    </form>
+</div>
+
+{{!-- Insert JQ file here --}}

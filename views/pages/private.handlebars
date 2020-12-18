@@ -47,7 +47,7 @@
             <tbody>
                 {{#each ownedgames}}
                 <tr>
-                    <td>{{this.name}}</td>
+                    <td><a href='/games/{{this._id}}'>{{this.name}}</a></td>
                     <td>{{this.genre}}</td>
                     <td>{{this.platform}}</td>
                     <td>{{this.releaseDate}}</td>
