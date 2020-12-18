@@ -2,8 +2,7 @@ const mongoCollections = require("../config/mongoCollection");
 const games = mongoCollections.game;
 const rentGameData = mongoCollections.game_rent;
 const sellGameData = mongoCollections.game_sell;
-const commentData = require("./comment");
-
+// const commentData = require("./comment");
 var BSON = require("mongodb");
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
@@ -65,9 +64,9 @@ let exportedMethods = {
     curr_game = await this.getGameById(id);
     comments = curr_game.comments;
 
-    for (i = 0; i < comments.length; i++) {
-      commentData.removeComment(comments[i]);
-    }
+    // for (i = 0; i < comments.length; i++) {
+    //   commentData.removeComment(comments[i]);
+    // }
 
     const deletedGame = await gameCollection.removeOne({
       _id: ObjectId(id),

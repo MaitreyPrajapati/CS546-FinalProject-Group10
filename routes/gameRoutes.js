@@ -119,7 +119,7 @@ router.get("/purchase/:gameId", async (req, res) => {
 
     if (curr_user == gameDetail.ownerId) {
       res.render("errors/common_error", {
-        error: { message: "Can not buy your own book." },
+        error: { message: "Can not buy your own Game." },
       });
     } else {
       await userdata.addOwnedGameToUser(req.session.user._id, gameDetail._id);

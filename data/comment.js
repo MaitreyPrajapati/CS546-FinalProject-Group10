@@ -77,6 +77,7 @@ let exportedMethods = {
   async getCommentsByGameID(gameId) {
     try {
       const curr_game = await games.getGameById(gameId);
+      console.log(curr_game);
       curr_game_comments = curr_game.comments;
       comments_arr = [];
       for (i = 0; i < curr_game_comments.length; i++) {
