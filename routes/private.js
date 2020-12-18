@@ -5,6 +5,7 @@ const userdata = data.users;
 const gamedata = data.games;
 const rentgamedata = data.rentgames;
 const sellgamedata = data.sellgames;
+const commentData = data.comments;
 const xss = require("xss");
 
 router.get("/", async (req, res) => {
@@ -42,9 +43,9 @@ router.get("/addGame", async (req, res) => {
 router.get("/deleteGame/:gameId", async (req, res) => {
   if (req.session.user) {
     try {
-      await gamedata.getGameById(req.params.gameId);
+      curr_game = await gamedata.getGameById(req.params.gameId);
     } catch (e) {
-      res.render("errors/common_error", { error: { message: e } });
+      return res.render("errors/common_error", { error: { message: e } });
     }
 
     if (await rentgamedata.checkIfGameisBorrowed(req.params.gameId)) {
@@ -53,6 +54,12 @@ router.get("/deleteGame/:gameId", async (req, res) => {
       });
     }
     try {
+      curr_game = await gamedata.getGameById(req.params.gameId);
+      for (i = 0; i < curr_game.comments.length; i++) {
+        c_id = curr_game.comments[i];
+        commentData.removeComment(c_id);
+      }
+
       await userdata.removeOwnedGameFromUser(
         req.session.user._id,
         req.params.gameId
@@ -61,9 +68,9 @@ router.get("/deleteGame/:gameId", async (req, res) => {
     } catch (error) {
       console.log(error);
     }
-    res.redirect("/private");
+    return res.redirect("/private");
   } else {
-    res.status(500).redirect("/login");
+    return res.status(500).redirect("/login");
   }
 });
 router.post("/addGame", async (req, res) => {

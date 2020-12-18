@@ -64,10 +64,6 @@ let exportedMethods = {
     curr_game = await this.getGameById(id);
     comments = curr_game.comments;
 
-    // for (i = 0; i < comments.length; i++) {
-    //   commentData.removeComment(comments[i]);
-    // }
-
     const deletedGame = await gameCollection.removeOne({
       _id: ObjectId(id),
     });
