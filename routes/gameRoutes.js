@@ -14,7 +14,6 @@ const buy_sell = data.buysell;
 // game rent part
 router.get("/rent", async (req, res) => {
   const rentgames = await rentgamedata.getAllRentGames();
-  console.log(rentgames);
   const showgames = new Array();
   for (let i in rentgames) {
     if (rentgames[i].borrowerId == "") {
@@ -174,7 +173,7 @@ router.get("/:game_id$", async (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    return res.status(400).render("errors/common_error.handlebars", {
+    return res.status(400).render("errors/common_error", {
       error: { message: "Could not find the game of given ID." },
     });
   }
