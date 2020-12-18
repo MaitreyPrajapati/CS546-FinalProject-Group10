@@ -11,7 +11,7 @@ let exportedMethods = {
         if(!ObjectId.isValid(gameId)) throw 'ID for game is not valid';
 
         const commentCollection = await comments();
-        const gameData = await gameCollection();
+
 
         let date = new Date();
         let dateOfComment = date.getFullYear + '/' + (date.getMonth()+1) + '/' + date.getDate();
@@ -25,8 +25,15 @@ let exportedMethods = {
         const insertNewComment = await commentCollection.insertOne(newComment);
         if(insertNewComment.insertedCount == 0) throw 'New comment was not added';
 
+        addCommentToGame(insertNewComment.insertedId,gameId);
+        
+        return await getComment(insertNewComment.insertedId);
+    },
+    
+    async addCommentToGame(id,gameId){
+        const gameData = await gameCollection();
         let gameComments = await games.getGameById(gameId).comments;
-        gameComments.push(insertNewComment.insertedId);
+        gameComments.push(id);
         const newGameComment = {
             comments:gameComments
         };
@@ -36,9 +43,8 @@ let exportedMethods = {
         );
         
 
-        if(newGameCommentCount == 0) throw 'Comment was not added to the game'
-        
-        return await this.getComment(insertNewComment.insertedId);
+        if(newGameCommentCount == 0) throw 'Comment was not added to the game';
+        return;
     },
 
     async getComment(id){
