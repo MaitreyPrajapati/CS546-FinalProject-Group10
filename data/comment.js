@@ -13,10 +13,6 @@ let exportedMethods = {
     const commentCollection = await comments();
     const gameData = await gameCollection();
 
-<<<<<<< HEAD
-        const commentCollection = await comments();
-
-=======
     let dateOfComment = new Date();
     let newComment = {
       body: body,
@@ -24,7 +20,6 @@ let exportedMethods = {
       gameID: gameId,
       dateOfComment: dateOfComment,
     };
->>>>>>> bug-fix
 
     const insertNewComment = await commentCollection.insertOne(newComment);
     if (insertNewComment.insertedCount == 0) throw "New comment was not added";
@@ -40,34 +35,10 @@ let exportedMethods = {
       { $set: newGameComment }
     );
 
-<<<<<<< HEAD
-        addCommentToGame(insertNewComment.insertedId,gameId);
-        
-        return await getComment(insertNewComment.insertedId);
-    },
-    
-    async addCommentToGame(id,gameId){
-        const gameData = await gameCollection();
-        let gameComments = await games.getGameById(gameId).comments;
-        gameComments.push(id);
-        const newGameComment = {
-            comments:gameComments
-        };
-        const newGameCommentCount = await gameData.updateOne(
-            {_id:gameId},
-            {$set:newGameComment}
-        );
-        
-
-        if(newGameCommentCount == 0) throw 'Comment was not added to the game';
-        return;
-    },
-=======
     if (newGameCommentCount == 0) throw "Comment was not added to the game";
 
     return await this.getComment(insertNewComment.insertedId);
   },
->>>>>>> bug-fix
 
   async getComment(id) {
     const commentCollection = await comments();
