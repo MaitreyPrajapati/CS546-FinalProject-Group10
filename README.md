@@ -15,10 +15,10 @@ Database documentation can be found [here](https://github.com/MaitreyPrajapati/C
 Presentation slides : [link](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/Documents/Pitch_Presentation.pdf)
 
 ## Members :
-- Haoyu Li
-- Jiahua Huang
-- Maitrey Prajapati
-- Ronald Kim
+- [Haoyu Li](https://github.com/hahahakkkE7)
+- [Jiahua Huang](https://github.com/methenberg)
+- [Maitrey Prajapati](https://github.com/MaitreyPrajapati)
+- [Ronald Kim](https://github.com/rkim4)
 
 ![Home](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/SS/home.png)
 ![Dashboard](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/SS/dashboard.png)
