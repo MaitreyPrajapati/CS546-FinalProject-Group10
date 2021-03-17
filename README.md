@@ -8,24 +8,6 @@ Using this as a MVP, one can exapand this web application into a full-fledge sto
 - Borrow/Buy games
 - Comment on games
 
-Full feature list can be found [here](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/Documents/Features_Documentation.pdf).
-
-Database documentation can be found [here](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/Documents/DB_Proposal.pdf).
-
-Presentation slides : [link](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/Documents/Pitch_Presentation.pdf)
-
-## Members :
-- [Haoyu Li](https://github.com/hahahakkkE7)
-- [Jiahua Huang](https://github.com/methenberg)
-- [Maitrey Prajapati](https://github.com/MaitreyPrajapati)
-- [Ronald Kim](https://github.com/rkim4)
-
-![Home](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/SS/home.png)
-![Dashboard](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/SS/dashboard.png)
-![Add a new game](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/SS/addGame.png)
-![Game page](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/SS/comment.png)
-
-
 ## Technologies used: 
 
 ### Language :
@@ -48,3 +30,21 @@ Presentation slides : [link](https://github.com/MaitreyPrajapati/CS546-FinalProj
 - Bcrypt
 - XSS
 - Express Sessions
+
+Full feature list can be found [here](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/Documents/Features_Documentation.pdf).
+
+Database documentation can be found [here](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/Documents/DB_Proposal.pdf).
+
+Presentation slides : [link](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/Documents/Pitch_Presentation.pdf)
+
+![Home](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/SS/home.png)
+![Dashboard](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/SS/dashboard.png)
+![Add a new game](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/SS/addGame.png)
+![Game page](https://github.com/MaitreyPrajapati/CS546-FinalProject-Group10/blob/main/SS/comment.png)
+
+## Members :
+- [Haoyu Li](https://github.com/hahahakkkE7)
+- [Jiahua Huang](https://github.com/methenberg)
+- [Maitrey Prajapati](https://github.com/MaitreyPrajapati)
+- [Ronald Kim](https://github.com/rkim4)
+
